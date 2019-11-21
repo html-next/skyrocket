@@ -22,7 +22,8 @@
     "packages/**/tests/**/*",
     "packages/**/types/**/*",
     "packages/**/test-support/**/*",
-    "packages/**/addon-test-support/**/*"
+    "packages/**/addon-test-support/**/*",
+    "packages/schema/Brocfile.js"
   ],
   "exclude": ["node_modules", "packages/**/node_modules"]
 }

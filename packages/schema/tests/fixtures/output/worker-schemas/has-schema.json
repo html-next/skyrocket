@@ -1,0 +1,39 @@
+{
+  "name": "has-schema",
+  "type": "@ember-data/model",
+  "fields": [
+    {
+      "key": "firstName",
+      "type": "attr",
+      "config": []
+    },
+    {
+      "key": "lastName",
+      "type": "attr",
+      "config": []
+    },
+    {
+      "key": "age",
+      "type": "attr",
+      "config": ["number", { "defaultValue": 0 }]
+    },
+    {
+      "key": "user",
+      "type": "belongsTo",
+      "config": []
+    },
+    {
+      "key": "friend",
+      "type": "belongsTo",
+      "config": ["user"]
+    },
+    {
+      "key": "bestFriend",
+      "type": "belongsTo",
+      "config": [
+        "user",
+        { "async": false, "polymorphic": true, "inverse": null }
+      ]
+    }
+  ]
+}

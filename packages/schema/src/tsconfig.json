@@ -11,7 +11,7 @@
     "noEmitOnError": false,
     "strictNullChecks": true,
     "experimentalDecorators": false,
-    "noEmit": true,
+    "noEmit": false,
     "skipLibCheck": true,
     "inlineSourceMap": true,
     "inlineSources": true,
