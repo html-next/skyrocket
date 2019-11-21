@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "allowJs": false,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noEmitOnError": false,
+    "strictNullChecks": true,
+    "experimentalDecorators": false,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "baseUrl": ".",
+    "paths": {}
+  },
+  "include": ["*"],
+  "exclude": ["node_modules", "packages/**/node_modules"]
+}
