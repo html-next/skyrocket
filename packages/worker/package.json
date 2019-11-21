@@ -1,5 +1,5 @@
 {
-  "name": "@skyrocket/channel",
+  "name": "@skyrocket/worker",
   "version": "0.0.0",
   "description": "Message passing infrastructure for WebWorkers",
   "main": "index.js",
