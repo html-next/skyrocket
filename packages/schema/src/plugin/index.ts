@@ -1,4 +1,4 @@
-import path from "path";
+const path = require("path");
 import * as BabelTypes from "@babel/types";
 import { Visitor, NodePath } from "@babel/traverse";
 

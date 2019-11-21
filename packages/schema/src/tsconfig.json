@@ -1,4 +1,5 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
@@ -14,9 +15,8 @@
     "skipLibCheck": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "baseUrl": ".",
-    "paths": {}
+    "outDir": "../build"
   },
-  "include": ["*"],
-  "exclude": ["node_modules", "packages/**/node_modules"]
+  "files": ["plugin/index.ts"],
+  "exclude": ["../node_modules/**", "../../../node_modules/**"]
 }
