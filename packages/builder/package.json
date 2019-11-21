@@ -1,9 +1,0 @@
-{
-  "name": "@skyrocket/builder",
-  "version": "0.0.0",
-  "description": "Service creator for WebWorkers built with @skyrocket/channel",
-  "main": "index.js",
-  "author": "Chris Thoburn <runspired@gmail.com>",
-  "license": "MIT",
-  "private": false
-}
