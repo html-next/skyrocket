@@ -22,7 +22,9 @@
     "broccoli": "^3.2.0",
     "broccoli-babel-transpiler": "^7.3.0",
     "broccoli-funnel": "^2.0.2",
+    "broccoli-merge-trees": "^3.0.2",
     "broccoli-stew": "^3.0.0",
+    "tmp": "^0.1.0",
     "typescript": "^3.7.2"
   },
   "devDependencies": {
