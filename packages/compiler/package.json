@@ -1,0 +1,16 @@
+{
+  "name": "@skyrocket/compiler",
+  "version": "0.0.0",
+  "description": "Broccoli+rollup WebWorker compiler",
+  "main": "index.js",
+  "author": "Chris Thoburn <runspired@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "broccoli-debug": "^0.6.5",
+    "broccoli-funnel": "^2.0.2",
+    "broccoli-rollup": "^4.1.1",
+    "calculate-cache-key-for-tree": "^2.0.0",
+    "chalk": "^3.0.0"
+  }
+}

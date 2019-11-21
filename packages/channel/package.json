@@ -1,0 +1,9 @@
+{
+  "name": "@skyrocket/channel",
+  "version": "0.0.0",
+  "description": "Message passing infrastructure for WebWorkers",
+  "main": "index.js",
+  "author": "Chris Thoburn <runspired@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
