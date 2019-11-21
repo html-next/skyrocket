@@ -2,6 +2,13 @@
 /dist/
 /tmp/
 
+# Library Code
+/src/
+/test/
+/Brocfile.js
+/yarn-error.log
+/**.tgz
+
 # dependencies
 /bower_components/
 
