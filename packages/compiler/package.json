@@ -10,20 +10,19 @@
     "prepublishOnly": "tsc --build src/tsconfig.json"
   },
   "dependencies": {
-    "broccoli-plugin": "^3.0.0",
-    "broccoli-rollup": "^4.1.1",
-    "rsvp": "^4.8.5",
-    "symlink-or-copy": "^1.2.0"
+    "broccoli-rollup": "^4.1.1"
   },
   "devDependencies": {
-    "@types/rsvp": "^4.0.3",
-    "broccoli": "^3.2.0",
-    "broccoli-funnel": "^2.0.2",
-    "typescript": "^3.7.2",
-    "broccoli-babel-transpiler": "^7.3.0",
+    "@skyrocket/schema": "0.0.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
-    "@babel/plugin-syntax-decorators": "^7.2.0"
+    "@babel/plugin-syntax-decorators": "^7.2.0",
+    "@types/node": "^12.12.11",
+    "broccoli": "^3.2.0",
+    "broccoli-babel-transpiler": "^7.3.0",
+    "broccoli-debug": "^0.6.5",
+    "broccoli-funnel": "^2.0.2",
+    "typescript": "^3.7.2"
   },
   "engines": {
     "node": ">= 12.*"
