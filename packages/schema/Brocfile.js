@@ -1,5 +1,4 @@
 const babel = require("broccoli-babel-transpiler");
-const path = require("path");
 const SchemaPlugin = require.resolve("./build/index");
 const Funnel = require("broccoli-funnel");
 const merge = require("broccoli-merge-trees");
