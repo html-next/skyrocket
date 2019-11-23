@@ -14,16 +14,19 @@
     "inlineSources": true,
     "baseUrl": ".",
     "module": "esnext",
-    "paths": {}
+    "paths": {
+      "@skyrocket/worker": ["packages/worker/src"],
+      "@skyrocket/worker/*": ["packages/worker/src/*"]
+    }
   },
   "include": [
+    "packages/worker/src/**/*",
     "packages/**/app/**/*",
     "packages/**/addon/**/*",
     "packages/**/tests/**/*",
     "packages/**/types/**/*",
     "packages/**/test-support/**/*",
-    "packages/**/addon-test-support/**/*",
-    "packages/schema/Brocfile.js"
+    "packages/**/addon-test-support/**/*"
   ],
   "exclude": ["node_modules", "packages/**/node_modules"]
 }

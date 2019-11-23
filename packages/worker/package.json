@@ -2,8 +2,24 @@
   "name": "@skyrocket/worker",
   "version": "0.0.0",
   "description": "Message passing infrastructure for WebWorkers",
-  "main": "index.js",
-  "author": "Chris Thoburn <runspired@gmail.com>",
+  "main": "build/index.js",
+  "private": false,
+  "repository": "",
   "license": "MIT",
-  "private": false
+  "author": "Chris Thoburn <runspired@gmail.com>",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "prepublishOnly": "tsc --build src/tsconfig.json"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 12.*"
+  },
+  "volta": {
+    "node": "13.2.0",
+    "yarn": "1.19.1"
+  }
 }
