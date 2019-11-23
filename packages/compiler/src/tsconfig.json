@@ -17,6 +17,11 @@
     "inlineSources": true,
     "outDir": "../build"
   },
-  "files": ["plugin/index.ts"],
+  "files": [
+    "plugin/index.ts",
+    "plugin/rollup.ts",
+    "plugin/formatter.ts",
+    "plugin/utils/gather-schemas.ts"
+  ],
   "exclude": ["../node_modules/**", "../../../node_modules/**"]
 }

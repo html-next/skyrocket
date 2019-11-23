@@ -1,52 +1,63 @@
-const BroccoliRollup = require("broccoli-rollup");
-const fs = require("fs");
-const path = require("path");
-import { BroccoliRollupOptions } from "broccoli-rollup";
+import Rollup from "./rollup";
+import Formatter from "./formatter";
+const babel = require("broccoli-babel-transpiler");
+const merge = require("broccoli-merge-trees");
+const SchemaPlugin = require.resolve("@skyrocket/schema");
+const Decorators = require.resolve("@babel/plugin-proposal-decorators");
+const ClassProps = require.resolve("@babel/plugin-proposal-class-properties");
+const debug = require("broccoli-debug").buildDebugCallback(
+  "@skyrocket/compiler"
+);
+const tmp = require("tmp");
 
-interface PluginOptions extends BroccoliRollupOptions {
-  schemaPath: string;
-}
+tmp.setGracefulCleanup();
 
-module.exports = class WorkerCompiler extends BroccoliRollup {
-  constructor(node: any, options: PluginOptions) {
-    options.name = "WorkerCompiler";
-    options.annotation = "WorkerCompiler extends BroccoliRollup";
-    super(node, options);
-    this.schemaPath = options.schemaPath;
-    this.rollupOptions.output = {
-      dir: "workers",
-      format: "es",
-      exports: "named"
-    };
-  }
+module.exports = function compile(node: any) {
+  const tmpobj = tmp.dirSync();
+  // acorn used by rollup doesn't support decorators or class fields
+  // we don't do a full parse here, we just want to grab info.
 
-  public async build(): Promise<void> {
-    const schemas = gatherSchemas(this.schemaPath);
-    const inputs: { [key: string]: string } = {};
+  const parsed = debug(
+    babel(node, {
+      throwUnlessParallelizable: true,
+      plugins: [
+        [
+          SchemaPlugin,
+          {
+            schemaSourceFiles: {
+              "@skyrocket/worker": true
+            },
+            filePrefix: "workers/",
+            outputPath: tmpobj.name
+          }
+        ],
+        [Decorators, { decoratorsBeforeExport: true }],
+        [ClassProps]
+      ]
+    }),
+    "babel"
+  );
 
-    Object.keys(schemas).forEach(key => {
-      // rollup bug doesnt allow for dashes in this key
-      let fixedKey = key.replace(/-/g, "_");
-      inputs[fixedKey] = schemas[key].path;
-    });
-    this.rollupOptions.input = inputs;
-    await super.build();
-  }
+  const withSchemas = debug(
+    new Formatter({
+      schemaPath: tmpobj.name,
+      schemaOutputDirectory: "workers"
+    }),
+    "schemas"
+  );
+
+  const rollup = debug(
+    new Rollup(parsed, {
+      cache: true, // likely need to make sure this is keyed to the output of the schemas
+      schemaPath: tmpobj.name,
+      rollup: {
+        // these options assigned later
+        input: "",
+        output: {}
+      }
+    }),
+    "rollup"
+  );
+
+  return merge([rollup, withSchemas]);
 };
-
-interface Schema {
-  module: string;
-  path: string;
-}
-function gatherSchemas(schemaPath: string): { [key: string]: Schema } {
-  const workerPath = path.join(schemaPath, "workers");
-  const dir = fs.readdirSync(workerPath);
-  const schemas: { [key: string]: Schema } = {};
-
-  for (let i = 0; i < dir.length; i++) {
-    const schema = require(path.join(workerPath, dir[i]));
-    schemas[schema.module] = schema;
-  }
-
-  return schemas;
-}

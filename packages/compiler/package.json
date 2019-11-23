@@ -10,16 +10,16 @@
     "prepublishOnly": "tsc --build src/tsconfig.json"
   },
   "dependencies": {
-    "broccoli-rollup": "^4.1.1"
+    "broccoli-rollup": "^4.1.1",
+    "broccoli-babel-transpiler": "^7.3.0",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/plugin-proposal-decorators": "^7.7.0",
+    "@babel/plugin-syntax-decorators": "^7.2.0"
   },
   "devDependencies": {
     "@skyrocket/schema": "0.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/plugin-proposal-decorators": "^7.7.0",
-    "@babel/plugin-syntax-decorators": "^7.2.0",
     "@types/node": "^12.12.11",
     "broccoli": "^3.2.0",
-    "broccoli-babel-transpiler": "^7.3.0",
     "broccoli-debug": "^0.6.5",
     "broccoli-funnel": "^2.0.2",
     "typescript": "^3.7.2"
