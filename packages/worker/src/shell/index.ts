@@ -1,6 +1,7 @@
 import SkyrocketWorker from "../program";
 
 const SkyrocketMessageIdentifier = "-srwm";
+const SkyrocketErrorIdentifier = "-srwme";
 
 type Field = [number, number | any[]];
 type OptimizedSchema = any[];
@@ -36,8 +37,16 @@ function createShell(
       (worker as unknown) as SkyrocketWorker;
       switch (fieldDef[0]) {
         case 1: // method
-          const result = await exec(worker, data[1], data[2]);
-          return send(result, data[3] as number);
+          try {
+            const result = await exec(worker, data[1], data[2]);
+            return send(result, data[3] as number);
+          } catch (e) {
+            const result = {
+              message: e.message,
+              stack: e.stack
+            };
+            return send(result, data[3] as number);
+          }
         case 2: // event
           return exec(worker, data[1], data[2]);
         case 3: // signal
@@ -70,7 +79,11 @@ function createShell(
   }
 
   function send(data: any, id: number) {
-    Global.postMessage([SkyrocketMessageIdentifier, data, id]);
+    if (data instanceof Error) {
+      Global.postMessage([SkyrocketMessageIdentifier, data, id]);
+    } else {
+      Global.postMessage([SkyrocketErrorIdentifier, data, id]);
+    }
   }
 
   Global.onmessage = recieve;

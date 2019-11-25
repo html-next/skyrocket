@@ -1,4 +1,5 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "target": "es2017",
     "allowJs": false,
@@ -14,13 +15,17 @@
     "inlineSources": true,
     "baseUrl": ".",
     "module": "esnext",
+    "outDir": "../build",
     "paths": {
       "@skyrocket/worker": ["packages/worker/src"],
-      "@skyrocket/worker/*": ["packages/worker/src/*"]
+      "@skyrocket/worker/*": ["packages/worker/src/*"],
+      "@skyrocket/channel": ["packages/channel/src"],
+      "@skyrocket/channel/*": ["packages/channel/src/*"]
     },
     "lib": ["webworker", "es2017", "scripthost", "dom"]
   },
   "include": [
+    "packages/channel/src/**/*",
     "packages/worker/src/**/*",
     "packages/**/app/**/*",
     "packages/**/addon/**/*",
