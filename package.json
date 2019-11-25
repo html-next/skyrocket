@@ -17,6 +17,7 @@
     "yarn": "1.19.1"
   },
   "dependencies": {
+    "command-line-args": "^5.1.1",
     "lerna": "^3.18.4"
   }
 }
