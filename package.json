@@ -6,6 +6,10 @@
   "author": "Chris Thoburn <runspired@gmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "lint:js": "",
+    "test": ""
+  },
   "workspaces": [
     "packages/*"
   ],
