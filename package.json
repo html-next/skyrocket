@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint:js": "",
-    "test": ""
+    "lint:js": "echo 1",
+    "test": "echo 1"
   },
   "workspaces": [
     "packages/*"
