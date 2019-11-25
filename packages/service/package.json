@@ -1,6 +1,6 @@
 {
   "name": "@skyrocketjs/service",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "description": "Service wrapper for instantiating workers on the main thread",
   "main": "build/index.js",
   "private": true,
@@ -13,8 +13,6 @@
   "scripts": {
     "prepublishOnly": "tsc --build src/tsconfig.json"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "engines": {
     "node": ">= 12.*"
   },

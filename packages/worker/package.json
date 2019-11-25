@@ -1,6 +1,6 @@
 {
   "name": "@skyrocketjs/worker",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "description": "Message passing infrastructure for WebWorkers",
   "main": "build/index.js",
   "private": false,
@@ -13,8 +13,6 @@
   "scripts": {
     "prepublishOnly": "tsc --build src/tsconfig.json"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "engines": {
     "node": ">= 12.*"
   },
