@@ -2,9 +2,11 @@ import Rollup from "./rollup";
 import Formatter from "./formatter";
 const babel = require("broccoli-babel-transpiler");
 const merge = require("broccoli-merge-trees");
+const Funnel = require("broccoli-funnel");
 const SchemaPlugin = require.resolve("@skyrocket/schema");
 const Decorators = require.resolve("@babel/plugin-proposal-decorators");
 const ClassProps = require.resolve("@babel/plugin-proposal-class-properties");
+const ParseDecorators = require.resolve("@babel/plugin-syntax-decorators");
 const debug = require("broccoli-debug").buildDebugCallback(
   "@skyrocket/compiler"
 );
@@ -17,8 +19,13 @@ module.exports = function compile(node: any) {
   // acorn used by rollup doesn't support decorators or class fields
   // we don't do a full parse here, we just want to grab info.
 
-  const parsed = debug(
-    babel(node, {
+  const schemaTree = new Funnel(node, {
+    srcDir: "workers",
+    destDir: "workers"
+  });
+
+  const parsedSchemas = debug(
+    babel(schemaTree, {
       throwUnlessParallelizable: true,
       plugins: [
         [
@@ -28,14 +35,24 @@ module.exports = function compile(node: any) {
               "@skyrocket/worker": true
             },
             filePrefix: "workers/",
-            outputPath: tmpobj.name
+            outputPath: tmpobj.name,
+            removeDecorators: true
           }
         ],
-        [Decorators, { decoratorsBeforeExport: true }],
-        [ClassProps]
+        [ParseDecorators, { decoratorsBeforeExport: false }]
       ]
     }),
-    "babel"
+    "babel-schemas"
+  );
+
+  const pullTree = merge([node, parsedSchemas], { overwrite: true });
+
+  const parsedRollup = debug(
+    babel(pullTree, {
+      throwUnlessParallelizable: true,
+      plugins: [[Decorators, { decoratorsBeforeExport: false }], [ClassProps]]
+    }),
+    "babel-rollup"
   );
 
   const withSchemas = debug(
@@ -47,7 +64,7 @@ module.exports = function compile(node: any) {
   );
 
   const rollup = debug(
-    new Rollup(parsed, {
+    new Rollup(parsedRollup, {
       cache: true, // likely need to make sure this is keyed to the output of the schemas
       schemaPath: tmpobj.name,
       rollup: {

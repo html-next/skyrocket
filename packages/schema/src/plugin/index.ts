@@ -26,6 +26,7 @@ interface PluginOptions {
     schemaSourceFiles: Schemas;
     filePrefix: string;
     outputPath: string;
+    removeDecorators?: boolean;
   };
   file: {
     path: NodePath;
@@ -275,6 +276,7 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
   let hasFoundSchemas = false;
   let sourceFiles: Schemas;
   let definitions: Def[] = [];
+  let shouldRemoveDecorators = false;
   const env = babel.getEnv();
 
   return {
@@ -284,12 +286,13 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
       Program: {
         enter(path: NodePath, state: PluginOptions) {
           const config = state.opts;
-          const { schemaSourceFiles, filePrefix } = config;
+          const { schemaSourceFiles, filePrefix, removeDecorators } = config;
           const fileName = path.hub.file.opts.sourceFileName;
           shouldParse = shouldParseFile(fileName, filePrefix);
           if (!shouldParse) {
             return;
           }
+          shouldRemoveDecorators = removeDecorators || false;
           sourceFiles = schemaSourceFiles;
         },
         exit(path: NodePath, state: PluginOptions) {
@@ -307,6 +310,7 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
           shouldParse = false;
           foundSchemas = {};
           hasFoundSchemas = false;
+          shouldRemoveDecorators = false;
         }
       },
       ImportDeclaration: {
@@ -374,6 +378,24 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
                 },
                 ClassProperty(path) {
                   parseField(schema, path, fields);
+                },
+                Decorator(path) {
+                  if (shouldRemoveDecorators) {
+                    let d = path.node.expression as Identifier | CallExpression;
+                    if (!isCallExpresion(d)) {
+                      let name = d.name;
+                      if (schema.fields[name]) {
+                        path.remove();
+                      }
+                    } else {
+                      let identifier = d.callee as Identifier;
+                      let name = identifier.name;
+
+                      if (schema.fields[name]) {
+                        path.remove();
+                      }
+                    }
+                  }
                 }
               });
               definitions.push({

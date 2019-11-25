@@ -8,7 +8,7 @@ export default class WorkerOne extends Worker {
     return aUtil(anotherUtil(util(aNum)));
   }
 
-  @event
+  @event()
   reload() {
     return this.fetchUsers(util(5) * anotherUtil(6) * aUtil(7));
   }

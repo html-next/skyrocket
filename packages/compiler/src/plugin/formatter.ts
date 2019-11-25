@@ -1,17 +1,42 @@
 const BroccoliPlugin = require("broccoli-plugin");
-import gatherSchemas, { Schema, Schemas } from "./utils/gather-schemas";
+import gatherSchemas, { Schema, Schemas, Field } from "./utils/gather-schemas";
 import { mkdirSync } from "fs";
 const path = require("path");
 const fs = require("fs");
 
+const FieldTypes: { [fieldType: string]: number } = {
+  method: 1,
+  event: 2,
+  signal: 3
+};
+
+function optimizeField(field: Field) {
+  const type = FieldTypes[field.type];
+  if (field.config && field.config.length) {
+    return [type, field.key, field.config];
+  }
+  return [type, field.key, 0];
+}
+function optimizeFields(fields: Field[]): any[] {
+  const optimized: any[] = [];
+  fields.forEach(field => {
+    optimized.push(...optimizeField(field));
+  });
+  return optimized;
+}
+
 function formatSchema(schema: Schema): string {
-  return `export default '${JSON.stringify(schema)}'`;
+  const defs = schema.definitions;
+  if (defs.length !== 1 || !defs[0].isDefaultExport) {
+    throw new Error(`Invalid SkyrocketWorker Schema`);
+  }
+  let fields = optimizeFields(defs[0].fields);
+  return `export default '${JSON.stringify(fields)}'`;
 }
 
 function writeModules(moduleList: OptimizedSchemas, directory: string) {
   Object.keys(moduleList).forEach(moduleName => {
     const modulePath = path.join(directory, moduleName + ".js");
-    console.log("writing", modulePath);
     fs.writeFileSync(modulePath, moduleList[moduleName], { encoding: "utf8" });
   });
 }

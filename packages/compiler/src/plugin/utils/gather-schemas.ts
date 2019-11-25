@@ -4,9 +4,21 @@ const path = require("path");
 export interface Schema {
   module: string;
   path: string;
+  definitions: Def[];
 }
 export interface Schemas {
   [key: string]: Schema;
+}
+export interface Def {
+  type: string;
+  name: string;
+  isDefaultExport: boolean;
+  fields: Field[];
+}
+export interface Field {
+  key: string;
+  type: string;
+  config: any[];
 }
 
 export default function gatherSchemas(schemaPath: string): Schemas {
