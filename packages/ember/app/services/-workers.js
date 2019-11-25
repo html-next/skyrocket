@@ -1,4 +1,4 @@
-import WorkerService from "@skyrocket/channel";
+import WorkerService from "@skyrocket/service";
 import { getOwner, setOwner } from "@ember/application";
 
 export default class EmberWorkerService extends WorkerService {

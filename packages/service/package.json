@@ -1,9 +1,9 @@
 {
-  "name": "@skyrocket/worker",
+  "name": "@skyrocket/service",
   "version": "0.0.0",
-  "description": "Message passing infrastructure for WebWorkers",
+  "description": "Service wrapper for instantiating workers on the main thread",
   "main": "build/index.js",
-  "private": false,
+  "private": true,
   "repository": "",
   "license": "MIT",
   "author": "Chris Thoburn <runspired@gmail.com>",

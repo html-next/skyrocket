@@ -19,13 +19,13 @@
     "paths": {
       "@skyrocket/worker": ["packages/worker/src"],
       "@skyrocket/worker/*": ["packages/worker/src/*"],
-      "@skyrocket/channel": ["packages/channel/src"],
-      "@skyrocket/channel/*": ["packages/channel/src/*"]
+      "@skyrocket/channel": ["packages/service/src"],
+      "@skyrocket/channel/*": ["packages/service/src/*"]
     },
     "lib": ["webworker", "es2017", "scripthost", "dom"]
   },
   "include": [
-    "packages/channel/src/**/*",
+    "packages/service/src/**/*",
     "packages/worker/src/**/*",
     "packages/**/app/**/*",
     "packages/**/addon/**/*",

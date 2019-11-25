@@ -1,6 +1,7 @@
 {
   "name": "@skyrocket/ember",
   "version": "0.0.0",
+  "private": true,
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"

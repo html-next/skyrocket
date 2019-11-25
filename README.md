@@ -17,6 +17,8 @@ To learn more about the individual packages, visit the corresponding package `RE
 
 - [🚀🐹@skyrocket/ember](./packages/ember/README.md)
 
+⚠️ Unpublished ⚠️
+
 An ember-addon which enables your ember-app or ember-addon to have workers built with
 `@skyrocket/worker` located in a top-level `workers/` directory that are useable by
 consuming apps via service-like injection.
@@ -45,6 +47,15 @@ A BabelPlugin which parses schema information based on config from encountered c
 
 This is reusable by many projects, but won't need to be configured directly for users
 of `@skyrocket/ember`.
+
+- [🚀@skyrocket/service](./packages/service/README.md)
+
+⚠️ Unpublished ⚠️
+
+Service wrapper for instantiating workers on the main thread. Meant to be generic but tied
+to `Ember` in the current `alpha` while a plan for either synchronous or asynchronous dynamic
+imports is devised. The instantiated workers use the schemas produced by for workers built
+with `@skyrocket/worker` to provide async APIs and event listenting.
 
 - [🚀@skyrocket/compiler](./packages/compiler/README.md)
 
