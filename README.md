@@ -15,12 +15,12 @@ To learn more about the individual packages, visit the corresponding package `RE
 
 ## Published Packages
 
-- [🚀🐹@skyrocket/ember](./packages/ember/README.md)
+- [🚀🐹@skyrocketjs/ember](./packages/ember/README.md)
 
 ⚠️ Unpublished ⚠️
 
 An ember-addon which enables your ember-app or ember-addon to have workers built with
-`@skyrocket/worker` located in a top-level `workers/` directory that are useable by
+`@skyrocketjs/worker` located in a top-level `workers/` directory that are useable by
 consuming apps via service-like injection.
 
 Configuration is as easy as adding this package to your app or addon dependencies.
@@ -34,33 +34,33 @@ will be instantiated as `WebWorkers` to ensure encapsulation.
 
 These workers will be torn down when the app instance is destroyed.
 
-- [🚀@skyrocket/worker](./packages/worker/README.md)
+- [🚀@skyrocketjs/worker](./packages/worker/README.md)
 
 Provides decorators and base classes for creating both `WebWorkers` and `SharedWorkers`
 that abstract away the need for authoring main-thread code or using `postMessage`.
 
 Communication is driven by async APIs that work naturally with `Promise` and `async...await`.
 
-- [🚀@skyrocket/schema](./packages/schema/README.md)
+- [🚀@skyrocketjs/schema](./packages/schema/README.md)
 
 A BabelPlugin which parses schema information based on config from encountered classes.
 
 This is reusable by many projects, but won't need to be configured directly for users
-of `@skyrocket/ember`.
+of `@skyrocketjs/ember`.
 
-- [🚀@skyrocket/service](./packages/service/README.md)
+- [🚀@skyrocketjs/service](./packages/service/README.md)
 
 ⚠️ Unpublished ⚠️
 
 Service wrapper for instantiating workers on the main thread. Meant to be generic but tied
 to `Ember` in the current `alpha` while a plan for either synchronous or asynchronous dynamic
 imports is devised. The instantiated workers use the schemas produced by for workers built
-with `@skyrocket/worker` to provide async APIs and event listenting.
+with `@skyrocketjs/worker` to provide async APIs and event listenting.
 
-- [🚀@skyrocket/compiler](./packages/compiler/README.md)
+- [🚀@skyrocketjs/compiler](./packages/compiler/README.md)
 
-A BroccoliPlugin which takes compiled schemas from `@skyrocket/schema` for workers built
-with `@skyrocket/worker` and produces runnable worker scripts.
+A BroccoliPlugin which takes compiled schemas from `@skyrocketjs/schema` for workers built
+with `@skyrocketjs/worker` and produces runnable worker scripts.
 
 This is reusable by many projects, but won't need to be configured directly for users
-of `@skyrocket/ember`.
+of `@skyrocketjs/ember`.

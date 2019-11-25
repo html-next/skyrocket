@@ -3,12 +3,12 @@ import Formatter from "./formatter";
 const babel = require("broccoli-babel-transpiler");
 const merge = require("broccoli-merge-trees");
 const Funnel = require("broccoli-funnel");
-const SchemaPlugin = require.resolve("@skyrocket/schema");
+const SchemaPlugin = require.resolve("@skyrocketjs/schema");
 const Decorators = require.resolve("@babel/plugin-proposal-decorators");
 const ClassProps = require.resolve("@babel/plugin-proposal-class-properties");
 const ParseDecorators = require.resolve("@babel/plugin-syntax-decorators");
 const debug = require("broccoli-debug").buildDebugCallback(
-  "@skyrocket/compiler"
+  "@skyrocketjs/compiler"
 );
 const tmp = require("tmp");
 
@@ -32,7 +32,7 @@ module.exports = function compile(node: any) {
           SchemaPlugin,
           {
             schemaSourceFiles: {
-              "@skyrocket/worker": true
+              "@skyrocketjs/worker": true
             },
             filePrefix: "workers/",
             outputPath: tmpobj.name,

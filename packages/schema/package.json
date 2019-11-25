@@ -1,5 +1,5 @@
 {
-  "name": "@skyrocket/schema",
+  "name": "@skyrocketjs/schema",
   "version": "0.0.0",
   "description": "Babel AST plugin for constructing schemas from decorators",
   "main": "build/index.js",

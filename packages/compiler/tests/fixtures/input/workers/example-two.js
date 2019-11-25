@@ -1,4 +1,4 @@
-import Worker, { method, event } from "@skyrocket/worker";
+import Worker, { method, event } from "@skyrocketjs/worker";
 import { aUtil, anotherUtil } from "./example-two/utils";
 import util from "../app/a-util";
 

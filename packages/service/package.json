@@ -1,5 +1,5 @@
 {
-  "name": "@skyrocket/service",
+  "name": "@skyrocketjs/service",
   "version": "0.0.0",
   "description": "Service wrapper for instantiating workers on the main thread",
   "main": "build/index.js",

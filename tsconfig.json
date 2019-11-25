@@ -17,10 +17,10 @@
     "module": "esnext",
     "outDir": "../build",
     "paths": {
-      "@skyrocket/worker": ["packages/worker/src"],
-      "@skyrocket/worker/*": ["packages/worker/src/*"],
-      "@skyrocket/channel": ["packages/service/src"],
-      "@skyrocket/channel/*": ["packages/service/src/*"]
+      "@skyrocketjs/worker": ["packages/worker/src"],
+      "@skyrocketjs/worker/*": ["packages/worker/src/*"],
+      "@skyrocketjs/channel": ["packages/service/src"],
+      "@skyrocketjs/channel/*": ["packages/service/src/*"]
     },
     "lib": ["webworker", "es2017", "scripthost", "dom"]
   },

@@ -1,5 +1,5 @@
 {
-  "name": "@skyrocket/compiler",
+  "name": "@skyrocketjs/compiler",
   "version": "0.0.0",
   "description": "Broccoli+rollup WebWorker compiler",
   "main": "build/index.js",
@@ -17,7 +17,7 @@
     "@babel/plugin-syntax-decorators": "^7.2.0"
   },
   "devDependencies": {
-    "@skyrocket/schema": "0.0.0",
+    "@skyrocketjs/schema": "0.0.0",
     "@types/node": "^12.12.11",
     "broccoli": "^3.2.0",
     "broccoli-debug": "^0.6.5",
