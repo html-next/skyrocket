@@ -23,7 +23,7 @@
     "babel-preset-env": "^1.7.0",
     "broccoli": "^3.2.0",
     "broccoli-babel-transpiler": "^7.3.0",
-    "broccoli-funnel": "^2.0.2",
+    "broccoli-funnel": "^3.0.0",
     "broccoli-merge-trees": "^3.0.2",
     "tmp": "^0.1.0",
     "typescript": "^3.7.2"

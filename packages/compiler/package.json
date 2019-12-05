@@ -21,7 +21,7 @@
     "@types/node": "^12.12.11",
     "broccoli": "^3.2.0",
     "broccoli-debug": "^0.6.5",
-    "broccoli-funnel": "^2.0.2",
+    "broccoli-funnel": "^3.0.0",
     "typescript": "^3.7.2"
   },
   "engines": {
