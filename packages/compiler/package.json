@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@skyrocketjs/schema": "0.0.1-alpha.0",
-    "@types/node": "^12.12.11",
+    "@types/node": "^13.13.1",
     "broccoli": "^3.2.0",
     "broccoli-debug": "^0.6.5",
     "broccoli-funnel": "^3.0.0",
