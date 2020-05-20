@@ -46,9 +46,20 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
+        launcher: [Chrome, IE, Firefox, Safari]
+        command: [test, test:production]
+        exclude:
+          - os: macos-latest
+            launcher: IE
+          - os: windows-latest
+            launcher: Safari
+          - os: ubuntu-latest
+            launcher: IE
+          - os: ubuntu-latest
+            launcher: Safari
     runs-on: ${{ matrix.os }}
     steps:
-      - if: matrix.os == 'macos-latest'
+      - if: matrix.os == 'macos-latest' && matrix.launcher == 'Chrome'
         run: |
           brew update
           brew cask install google-chrome
@@ -61,5 +72,7 @@ jobs:
       - name: Launcher Info
         run: |
           yarn run testem launchers
-      - name: Basic tests
-        run: yarn test
+      - name: Run Test
+        env:
+          TESTEM_CI_LAUNCHER: ${{ matrix.launcher }}
+        run: yarn ${{ matrix.command }}
