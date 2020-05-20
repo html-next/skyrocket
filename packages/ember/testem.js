@@ -16,5 +16,11 @@ module.exports = {
         '--window-size=1440,900',
       ].filter(Boolean),
     },
+    Firefox: {
+      ci: ['-headless', '-width 1440', '-height 900'],
+    },
+    Safari: {
+      ci: ['--headless', 'no-sandbox', 'disable-gpu'],
+    },
   },
 };
