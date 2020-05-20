@@ -45,9 +45,9 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-        launcher: [Chrome, IE, Firefox, Safari]
         command: [development, production]
+        launcher: [Chrome, IE, Firefox, Safari]
+        os: [macos-latest, windows-latest, ubuntu-latest]
         exclude:
           - os: macos-latest
             launcher: IE
@@ -76,4 +76,4 @@ jobs:
       - name: Run Test
         env:
           TESTEM_CI_LAUNCHER: ${{ matrix.launcher }}
-        run: yarn ${{ matrix.command }}
+        run: yarn test:${{ matrix.command }}
