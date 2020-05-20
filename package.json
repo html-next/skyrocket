@@ -10,7 +10,8 @@
     "lint": "eslint --cache --ext=js,ts .",
     "test": "lerna run test",
     "problems": "tsc -p tsconfig.json --noEmit --pretty false",
-    "test:node": "lerna run test:node"
+    "test:node": "lerna run test:node",
+    "test:production": "lerna run test:production"
   },
   "workspaces": [
     "packages/*"
