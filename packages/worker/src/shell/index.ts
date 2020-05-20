@@ -1,32 +1,26 @@
-import SkyrocketWorker from "../program";
+import SkyrocketWorker from '../program';
 
-const SkyrocketMessageIdentifier = "-srwm";
-const SkyrocketErrorIdentifier = "-srwme";
+const SkyrocketMessageIdentifier = '-srwm';
+const SkyrocketErrorIdentifier = '-srwme';
 
 type Field = [number, number | any[]];
 type OptimizedSchema = any[];
 
-type Payload = ["-srwm", string, any?, number?];
+type Payload = ['-srwm', string, any?, number?];
 type Context = (Window & typeof globalThis) | MessagePort;
 
 interface SkyrocketMessageEvent extends MessageEvent {
   data: Payload;
 }
 
-function createShell(
-  Global: Context,
-  schema: OptimizedSchema,
-  WorkerMain: typeof SkyrocketWorker
-) {
+function createShell(Global: Context, schema: OptimizedSchema, WorkerMain: typeof SkyrocketWorker) {
   const channel = {
     onmessage: function(...args: any[]): void {},
     postMessage: function(a: any, b: any) {
       Global.postMessage(a, b);
-    }
+    },
   };
-  const isWorker =
-    typeof WorkerGlobalScope !== "undefined" &&
-    self instanceof WorkerGlobalScope;
+  const isWorker = typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
   const worker = new WorkerMain(channel, { isWorker });
   let DEF_CACHE = Object.create(null);
 
@@ -43,7 +37,7 @@ function createShell(
           } catch (e) {
             const result = {
               message: e.message,
-              stack: e.stack
+              stack: e.stack,
             };
             return send(result, data[3] as number);
           }
@@ -96,11 +90,7 @@ function exec(worker: any, fieldName: string, args: any): any {
   return worker[fieldName]();
 }
 
-export default function setupWorkerShell(
-  Global: Context,
-  schemaStr: string,
-  WorkerMain: typeof SkyrocketWorker
-) {
+export default function setupWorkerShell(Global: Context, schemaStr: string, WorkerMain: typeof SkyrocketWorker) {
   const schema: OptimizedSchema = JSON.parse(schemaStr);
   createShell(Global, schema, WorkerMain);
 }

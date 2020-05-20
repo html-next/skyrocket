@@ -1,15 +1,17 @@
-const babel = require("broccoli-babel-transpiler");
-const SchemaPlugin = require.resolve("./build/index");
-const Funnel = require("broccoli-funnel");
-const merge = require("broccoli-merge-trees");
-const Decorators = require.resolve("@babel/plugin-proposal-decorators");
-const ClassProps = require.resolve("@babel/plugin-proposal-class-properties");
-const tmp = require("tmp");
+const babel = require('broccoli-babel-transpiler');
+
+const SchemaPlugin = require.resolve('./build/index');
+const Funnel = require('broccoli-funnel');
+const merge = require('broccoli-merge-trees');
+
+const Decorators = require.resolve('@babel/plugin-proposal-decorators');
+const ClassProps = require.resolve('@babel/plugin-proposal-class-properties');
+const tmp = require('tmp');
 
 tmp.setGracefulCleanup();
 
 module.exports = () => {
-  const app = new Funnel("tests/fixtures/input");
+  const app = new Funnel('tests/fixtures/input');
   const tmpobj = tmp.dirSync();
   const transpiled = babel(app, {
     throwUnlessParallelizable: true,
@@ -18,19 +20,16 @@ module.exports = () => {
         SchemaPlugin,
         {
           schemaSourceFiles: {
-            "@ember-data/model": true
+            '@ember-data/model': true,
           },
-          filePrefix: "workers/",
-          outputPath: tmpobj.name
-        }
+          filePrefix: 'workers/',
+          outputPath: tmpobj.name,
+        },
       ],
       [Decorators, { decoratorsBeforeExport: true }],
-      [ClassProps]
-    ]
+      [ClassProps],
+    ],
   });
-  const fullTree = merge([
-    transpiled,
-    new Funnel(tmpobj.name, { destDir: "parsed-schemas" })
-  ]);
+  const fullTree = merge([transpiled, new Funnel(tmpobj.name, { destDir: 'parsed-schemas' })]);
   return fullTree;
 };

@@ -1,16 +1,16 @@
-import Rollup from "./rollup";
-import Formatter from "./formatter";
-const babel = require("broccoli-babel-transpiler");
-const merge = require("broccoli-merge-trees");
-const Funnel = require("broccoli-funnel");
-const SchemaPlugin = require.resolve("@skyrocketjs/schema");
-const Decorators = require.resolve("@babel/plugin-proposal-decorators");
-const ClassProps = require.resolve("@babel/plugin-proposal-class-properties");
-const ParseDecorators = require.resolve("@babel/plugin-syntax-decorators");
-const debug = require("broccoli-debug").buildDebugCallback(
-  "@skyrocketjs/compiler"
-);
-const tmp = require("tmp");
+import Formatter from './formatter';
+import Rollup from './rollup';
+
+const babel = require('broccoli-babel-transpiler');
+const merge = require('broccoli-merge-trees');
+const Funnel = require('broccoli-funnel');
+
+const SchemaPlugin = require.resolve('@skyrocketjs/schema');
+const Decorators = require.resolve('@babel/plugin-proposal-decorators');
+const ClassProps = require.resolve('@babel/plugin-proposal-class-properties');
+const ParseDecorators = require.resolve('@babel/plugin-syntax-decorators');
+const debug = require('broccoli-debug').buildDebugCallback('@skyrocketjs/compiler');
+const tmp = require('tmp');
 
 tmp.setGracefulCleanup();
 
@@ -20,8 +20,8 @@ module.exports = function compile(node: any) {
   // we don't do a full parse here, we just want to grab info.
 
   const schemaTree = new Funnel(node, {
-    srcDir: "workers",
-    destDir: "workers"
+    srcDir: 'workers',
+    destDir: 'workers',
   });
 
   const parsedSchemas = debug(
@@ -32,17 +32,17 @@ module.exports = function compile(node: any) {
           SchemaPlugin,
           {
             schemaSourceFiles: {
-              "@skyrocketjs/worker": true
+              '@skyrocketjs/worker': true,
             },
-            filePrefix: "workers/",
+            filePrefix: 'workers/',
             outputPath: tmpobj.name,
-            removeDecorators: true
-          }
+            removeDecorators: true,
+          },
         ],
-        [ParseDecorators, { decoratorsBeforeExport: false }]
-      ]
+        [ParseDecorators, { decoratorsBeforeExport: false }],
+      ],
     }),
-    "babel-schemas"
+    'babel-schemas'
   );
 
   const pullTree = merge([node, parsedSchemas], { overwrite: true });
@@ -50,17 +50,17 @@ module.exports = function compile(node: any) {
   const parsedRollup = debug(
     babel(pullTree, {
       throwUnlessParallelizable: true,
-      plugins: [[Decorators, { decoratorsBeforeExport: false }], [ClassProps]]
+      plugins: [[Decorators, { decoratorsBeforeExport: false }], [ClassProps]],
     }),
-    "babel-rollup"
+    'babel-rollup'
   );
 
   const withSchemas = debug(
     new Formatter({
       schemaPath: tmpobj.name,
-      schemaOutputDirectory: "workers"
+      schemaOutputDirectory: 'workers',
     }),
-    "schemas"
+    'schemas'
   );
 
   const rollup = debug(
@@ -69,11 +69,11 @@ module.exports = function compile(node: any) {
       schemaPath: tmpobj.name,
       rollup: {
         // these options assigned later
-        input: "",
-        output: {}
-      }
+        input: '',
+        output: {},
+      },
     }),
-    "rollup"
+    'rollup'
   );
 
   return merge([rollup, withSchemas]);

@@ -1,16 +1,16 @@
-const path = require("path");
-const fs = require("fs");
-
+import { NodePath, Visitor } from '@babel/traverse';
 import BabelTypes, {
-  ImportDeclaration,
-  Identifier,
-  CallExpression,
   ArrayExpression,
-  ObjectProperty
-} from "@babel/types";
-import { Visitor, NodePath } from "@babel/traverse";
+  CallExpression,
+  Identifier,
+  ImportDeclaration,
+  ObjectProperty,
+} from '@babel/types';
 
-type Schema = "*" | true | string[];
+const path = require('path');
+const fs = require('fs');
+
+type Schema = '*' | true | string[];
 type Schemas = {
   [key: string]: Schema;
 };
@@ -55,18 +55,18 @@ type Field = {
   type: string;
   config: any[];
 };
-type CallArg = CallExpression["arguments"][0];
-type ValArg = ObjectProperty["value"];
-type ArrArg = ArrayExpression["elements"][0];
+type CallArg = CallExpression['arguments'][0];
+type ValArg = ObjectProperty['value'];
+type ArrArg = ArrayExpression['elements'][0];
 type Arg = CallArg | ValArg | ArrArg;
 
 const SerializableTypes = [
-  "ObjectExpression",
-  "ArrayExpression",
-  "BooleanLiteral",
-  "NumericLiteral",
-  "StringLiteral",
-  "NullLiteral"
+  'ObjectExpression',
+  'ArrayExpression',
+  'BooleanLiteral',
+  'NumericLiteral',
+  'StringLiteral',
+  'NullLiteral',
 ];
 
 function shouldParseFile(fileName: string, filePrefix: string): boolean {
@@ -77,12 +77,8 @@ function hasSchemaForImport(importPath: string, schemas: Schemas): boolean {
   return importPath in schemas;
 }
 
-function importsForSchema(
-  importPath: string,
-  schema: Schema,
-  specifiers: ImportDeclaration["specifiers"]
-) {
-  let fields: ParsedSchema["fields"] = {};
+function importsForSchema(importPath: string, schema: Schema, specifiers: ImportDeclaration['specifiers']) {
+  let fields: ParsedSchema['fields'] = {};
   let type: ParsedField | null = null;
 
   for (let i = 0; i < specifiers.length; i++) {
@@ -90,18 +86,17 @@ function importsForSchema(
     let name, localName, identifier;
     let isType = false;
     let isAllowed = true;
-    if (s.type === "ImportDefaultSpecifier") {
+    if (s.type === 'ImportDefaultSpecifier') {
       isType = true;
       name = localName = s.local.name;
       identifier = s.local;
-    } else if (s.type === "ImportSpecifier") {
+    } else if (s.type === 'ImportSpecifier') {
       name = s.imported.name;
-      isAllowed =
-        schema === true || schema === "*" || schema.indexOf(name) !== -1;
+      isAllowed = schema === true || schema === '*' || schema.indexOf(name) !== -1;
       localName = s.local ? s.local.name : name;
       identifier = s.local ? s.local : s.imported;
     } else {
-      throw new Error("Unexpected import syntax");
+      throw new Error('Unexpected import syntax');
     }
 
     let field = { name, localName, identifier };
@@ -113,7 +108,7 @@ function importsForSchema(
   }
 
   if (type === null) {
-    throw new Error("Invalid Schema: missing default import");
+    throw new Error('Invalid Schema: missing default import');
   }
 
   return { source: importPath, type, fields };
@@ -138,15 +133,13 @@ function parseField(
         let name = d.name;
         if (schema.fields[name]) {
           if (matched) {
-            throw new Error(
-              `Expected only one schema decorator to be used for this property`
-            );
+            throw new Error(`Expected only one schema decorator to be used for this property`);
           }
           matched = true;
           field = {
             key,
             type: name,
-            config: []
+            config: [],
           };
         }
       } else {
@@ -155,9 +148,7 @@ function parseField(
         let name = identifier.name;
         if (schema.fields[name]) {
           if (matched) {
-            throw new Error(
-              `Expected only one schema decorator to be used for this property`
-            );
+            throw new Error(`Expected only one schema decorator to be used for this property`);
           }
           matched = true;
           let config: any[] = [];
@@ -167,7 +158,7 @@ function parseField(
           field = {
             key,
             type: name,
-            config
+            config,
           };
         }
       }
@@ -180,7 +171,7 @@ function parseField(
 }
 
 function isCallExpresion(thing: any): thing is CallExpression {
-  return Object.hasOwnProperty.call(thing, "callee");
+  return Object.hasOwnProperty.call(thing, 'callee');
 }
 
 function argsToJSON(args: Arg[]): any[] {
@@ -204,22 +195,18 @@ function argToJSON(node: Arg) {
     throw new Error(`Cannot serialize ${type} to JSON`);
   }
 
-  if (
-    node.type === "BooleanLiteral" ||
-    node.type === "StringLiteral" ||
-    node.type === "NumericLiteral"
-  ) {
+  if (node.type === 'BooleanLiteral' || node.type === 'StringLiteral' || node.type === 'NumericLiteral') {
     return node.value;
-  } else if (node.type === "NullLiteral") {
+  } else if (node.type === 'NullLiteral') {
     return null;
-  } else if (node.type === "ArrayExpression") {
+  } else if (node.type === 'ArrayExpression') {
     return node.elements ? argsToJSON(node.elements) : [];
-  } else if (node.type === "ObjectExpression") {
+  } else if (node.type === 'ObjectExpression') {
     let json: { [key: string]: any } = {};
     if (node.properties) {
       for (let i = 0; i < node.properties.length; i++) {
         let prop = node.properties[i];
-        if (prop.type !== "ObjectProperty") {
+        if (prop.type !== 'ObjectProperty') {
           throw new Error(`Cannot serialize ${prop.type} to JSON`);
         }
         if (prop.computed === true) {
@@ -236,7 +223,7 @@ function argToJSON(node: Arg) {
 function writeSchema(
   definitions: Def[],
   config: {
-    env: "development" | "testing" | "production";
+    env: 'development' | 'testing' | 'production';
     fileName: string;
     filePrefix: string;
     outputPath: string;
@@ -245,28 +232,24 @@ function writeSchema(
   // ensure directory
   const outputPath = path.join(config.outputPath, config.filePrefix);
   fs.mkdirSync(outputPath, { recursive: true });
-  const moduleNameParts = path.parse(
-    config.fileName.replace(config.filePrefix, "")
-  );
+  const moduleNameParts = path.parse(config.fileName.replace(config.filePrefix, ''));
   const moduleName = path.join(moduleNameParts.dir, moduleNameParts.name);
   const newFilePath = path.join(
     outputPath,
-    `${
-      moduleNameParts.dir.length
-        ? moduleNameParts.dir.replace(/\//g, "_") + "_"
-        : ""
-    }${moduleNameParts.name}+${config.env}.json`
+    `${moduleNameParts.dir.length ? moduleNameParts.dir.replace(/\//g, '_') + '_' : ''}${moduleNameParts.name}+${
+      config.env
+    }.json`
   );
 
   const content = {
     module: moduleName,
     path: config.fileName,
-    definitions
+    definitions,
   };
   const fileContent = JSON.stringify(content, null, 2);
 
   fs.writeFileSync(newFilePath, fileContent, {
-    encoding: "utf8"
+    encoding: 'utf8',
   });
 }
 
@@ -280,7 +263,7 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
   const env = babel.getEnv();
 
   return {
-    name: "skyrocket-schema-parser",
+    name: 'skyrocket-schema-parser',
 
     visitor: {
       Program: {
@@ -302,7 +285,7 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
               env,
               fileName,
               outputPath: state.opts.outputPath,
-              filePrefix: state.opts.filePrefix
+              filePrefix: state.opts.filePrefix,
             };
             writeSchema(definitions, config);
           }
@@ -311,7 +294,7 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
           foundSchemas = {};
           hasFoundSchemas = false;
           shouldRemoveDecorators = false;
-        }
+        },
       },
       ImportDeclaration: {
         enter(path) {
@@ -322,14 +305,10 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
           if (hasSchemaForImport(importPath, sourceFiles)) {
             const specifiers = path.node.specifiers;
             hasFoundSchemas = true;
-            const schema = importsForSchema(
-              importPath,
-              sourceFiles[importPath],
-              specifiers
-            );
+            const schema = importsForSchema(importPath, sourceFiles[importPath], specifiers);
             foundSchemas[schema.type.localName] = schema;
           }
-        }
+        },
       },
       ClassDeclaration: {
         enter(path) {
@@ -343,9 +322,9 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
           // and ignore classes assigned dynamically
           // this is a static schema parser afterall ;)
           if (
-            path.parent.type !== "Program" &&
-            path.parent.type !== "ExportDefaultDeclaration" &&
-            path.parent.type !== "ExportNamedDeclaration"
+            path.parent.type !== 'Program' &&
+            path.parent.type !== 'ExportDefaultDeclaration' &&
+            path.parent.type !== 'ExportNamedDeclaration'
           ) {
             return;
           }
@@ -356,17 +335,12 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
           //  don't catch this.
           // This also means we might find a schema for a class that is never
           //  exported
-          const isDefaultExport =
-            path.parent.type === "ExportDefaultDeclaration";
-          const superClass: Identifier | null = path.node.superClass
-            ? (path.node.superClass as Identifier)
-            : null;
+          const isDefaultExport = path.parent.type === 'ExportDefaultDeclaration';
+          const superClass: Identifier | null = path.node.superClass ? (path.node.superClass as Identifier) : null;
 
           if (superClass) {
             if (!path.node.id) {
-              throw new Error(
-                `Unexpected anonymous class extending ${superClass.name}`
-              );
+              throw new Error(`Unexpected anonymous class extending ${superClass.name}`);
             }
             const name = path.node.id.name;
             const schema = foundSchemas[superClass.name];
@@ -396,24 +370,24 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
                       }
                     }
                   }
-                }
+                },
               });
               definitions.push({
                 type: schema.source,
                 name,
                 isDefaultExport,
-                fields
+                fields,
               });
             }
           }
-        }
-      }
-    }
+        },
+      },
+    },
   };
 }
 
 skyrocketSchemaParser.baseDir = function() {
-  return path.join(__dirname, "../");
+  return path.join(__dirname, '../');
 };
 
 module.exports = skyrocketSchemaParser;

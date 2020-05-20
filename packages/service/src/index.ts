@@ -1,7 +1,7 @@
 /* global Ember requirejs */
 let messageId = 0;
-const SkyrocketMessageIdentifier = "-srwm";
-const SkyrocketErrorIdentifier = "-srwme";
+const SkyrocketMessageIdentifier = '-srwm';
+const SkyrocketErrorIdentifier = '-srwme';
 
 declare global {
   export const Ember: any;
@@ -9,7 +9,7 @@ declare global {
 }
 
 type OptimizedSchema = any[];
-type Payload = ["-srwm" | "-srwme", any?, number?];
+type Payload = ['-srwm' | '-srwme', any?, number?];
 
 function syncImportSchema(name: string) {
   // The web does not have a dynamic sync import
@@ -55,10 +55,7 @@ interface SkyrocketMessageEvent extends MessageEvent {
 
 async function recieve(worker: AsyncWorker, event: SkyrocketMessageEvent) {
   const data = event.data;
-  if (
-    (Array.isArray(data) && data[0] === SkyrocketMessageIdentifier) ||
-    data[0] === SkyrocketErrorIdentifier
-  ) {
+  if ((Array.isArray(data) && data[0] === SkyrocketMessageIdentifier) || data[0] === SkyrocketErrorIdentifier) {
     // handle method returns
     if (data[2] !== undefined) {
       let deferred = worker.__pending.get(data[2]);
@@ -77,18 +74,16 @@ async function recieve(worker: AsyncWorker, event: SkyrocketMessageEvent) {
     let events = worker.__events[data[1].name]!;
     events.handlers.forEach(cb => cb(event.data));
   } else {
-    if (typeof worker.onmessage === "function") {
+    if (typeof worker.onmessage === 'function') {
       worker.onmessage(...arguments);
     }
   }
 }
 
-type VMN = Exclude<string, "destroy" | "__pending">;
+type VMN = Exclude<string, 'destroy' | '__pending'>;
 type PendingRequests = Map<number, Deferred>;
 type ValidEvents = {
-  [fieldName: string]:
-    | { config: 0 | any[]; handlers: Set<Callback> }
-    | undefined;
+  [fieldName: string]: { config: 0 | any[]; handlers: Set<Callback> } | undefined;
 };
 type OnMessage = (...args: any[]) => void;
 
@@ -114,43 +109,43 @@ class AsyncWorker {
         case 1: // method
           // TODO reduce this limitation by using a WeakMap
           if (
-            fieldName === "destroy" ||
-            fieldName === "on" ||
-            fieldName === "off" ||
-            fieldName === "onmessage" ||
-            fieldName === "postMessage" ||
-            fieldName === "url" ||
-            fieldName === "worker" ||
-            fieldName === "__pending" ||
-            fieldName === "__events" ||
-            fieldName === "_name" ||
-            fieldName === "_schema"
+            fieldName === 'destroy' ||
+            fieldName === 'on' ||
+            fieldName === 'off' ||
+            fieldName === 'onmessage' ||
+            fieldName === 'postMessage' ||
+            fieldName === 'url' ||
+            fieldName === 'worker' ||
+            fieldName === '__pending' ||
+            fieldName === '__events' ||
+            fieldName === '_name' ||
+            fieldName === '_schema'
           ) {
-            throw new Error("disallowed method name");
+            throw new Error('disallowed method name');
           }
           this[fieldName] = method(fieldName, fieldConfig);
         case 3: // signal
           // TODO reduce this limitation by using a WeakMap
           if (
-            fieldName === "destroy" ||
-            fieldName === "on" ||
-            fieldName === "off" ||
-            fieldName === "onmessage" ||
-            fieldName === "postMessage" ||
-            fieldName === "url" ||
-            fieldName === "worker" ||
-            fieldName === "__pending" ||
-            fieldName === "__events" ||
-            fieldName === "_name" ||
-            fieldName === "_schema"
+            fieldName === 'destroy' ||
+            fieldName === 'on' ||
+            fieldName === 'off' ||
+            fieldName === 'onmessage' ||
+            fieldName === 'postMessage' ||
+            fieldName === 'url' ||
+            fieldName === 'worker' ||
+            fieldName === '__pending' ||
+            fieldName === '__events' ||
+            fieldName === '_name' ||
+            fieldName === '_schema'
           ) {
-            throw new Error("disallowed method name");
+            throw new Error('disallowed method name');
           }
           this[fieldName] = signal(fieldName, fieldConfig);
         case 2: // event
           this.__events[fieldName] = {
             config: fieldConfig,
-            handlers: new Set()
+            handlers: new Set(),
           };
         default:
           throw new Error(`Unknown field type`);

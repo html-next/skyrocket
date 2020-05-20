@@ -1,6 +1,8 @@
-const BroccoliRollup = require("broccoli-rollup");
-import { BroccoliRollupOptions } from "broccoli-rollup";
-import gatherSchemas from "./utils/gather-schemas";
+import { BroccoliRollupOptions } from 'broccoli-rollup';
+
+import gatherSchemas from './utils/gather-schemas';
+
+const BroccoliRollup = require('broccoli-rollup');
 
 interface PluginOptions extends BroccoliRollupOptions {
   schemaPath: string;
@@ -8,14 +10,14 @@ interface PluginOptions extends BroccoliRollupOptions {
 
 export default class WorkerCompiler extends BroccoliRollup {
   constructor(node: any, options: PluginOptions) {
-    options.name = "WorkerCompiler";
-    options.annotation = "WorkerCompiler extends BroccoliRollup";
+    options.name = 'WorkerCompiler';
+    options.annotation = 'WorkerCompiler extends BroccoliRollup';
     super(node, options);
     this.schemaPath = options.schemaPath;
     this.rollupOptions.output = {
-      dir: "workers",
-      format: "es",
-      exports: "named"
+      dir: 'workers',
+      format: 'es',
+      exports: 'named',
     };
   }
 
@@ -25,7 +27,7 @@ export default class WorkerCompiler extends BroccoliRollup {
 
     Object.keys(schemas).forEach(key => {
       // rollup bug doesnt allow for dashes in this key
-      let fixedKey = key.replace(/-/g, "_");
+      let fixedKey = key.replace(/-/g, '_');
       inputs[fixedKey] = schemas[key].path;
     });
     this.rollupOptions.input = inputs;

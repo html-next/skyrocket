@@ -9,7 +9,7 @@ module.exports = function setupTest(hooks) {
     });
   });
 
-   hooks.afterEach(function() {
+  hooks.afterEach(function() {
     // clean the cache from the test
     Object.keys(require.cache).forEach(moduleName => {
       delete require.cache[moduleName];

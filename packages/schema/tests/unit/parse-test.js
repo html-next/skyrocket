@@ -1,4 +1,5 @@
 const QUnit = require('qunit');
+
 const { module: testModule, test } = QUnit;
 const setupTest = require('../helpers/setup');
 

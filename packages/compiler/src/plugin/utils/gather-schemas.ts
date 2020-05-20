@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
 export interface Schema {
   module: string;
@@ -22,7 +22,7 @@ export interface Field {
 }
 
 export default function gatherSchemas(schemaPath: string): Schemas {
-  const workerPath = path.join(schemaPath, "workers");
+  const workerPath = path.join(schemaPath, 'workers');
   const dir = fs.readdirSync(workerPath);
   const schemas: Schemas = {};
 

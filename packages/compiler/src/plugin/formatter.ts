@@ -1,13 +1,15 @@
-const BroccoliPlugin = require("broccoli-plugin");
-import gatherSchemas, { Schema, Schemas, Field } from "./utils/gather-schemas";
-import { mkdirSync } from "fs";
-const path = require("path");
-const fs = require("fs");
+import { mkdirSync } from 'fs';
+
+import gatherSchemas, { Field, Schema, Schemas } from './utils/gather-schemas';
+
+const BroccoliPlugin = require('broccoli-plugin');
+const path = require('path');
+const fs = require('fs');
 
 const FieldTypes: { [fieldType: string]: number } = {
   method: 1,
   event: 2,
-  signal: 3
+  signal: 3,
 };
 
 function optimizeField(field: Field) {
@@ -36,8 +38,8 @@ function formatSchema(schema: Schema): string {
 
 function writeModules(moduleList: OptimizedSchemas, directory: string) {
   Object.keys(moduleList).forEach(moduleName => {
-    const modulePath = path.join(directory, moduleName + ".js");
-    fs.writeFileSync(modulePath, moduleList[moduleName], { encoding: "utf8" });
+    const modulePath = path.join(directory, moduleName + '.js');
+    fs.writeFileSync(modulePath, moduleList[moduleName], { encoding: 'utf8' });
   });
 }
 
@@ -58,10 +60,7 @@ export default class SchemaFormatter extends BroccoliPlugin {
   constructor(options: any) {
     super([], options);
     this.schemaPath = options.schemaPath;
-    this.schemaOutputDirectory = path.join(
-      "schemas",
-      options.schemaOutputDirectory
-    );
+    this.schemaOutputDirectory = path.join('schemas', options.schemaOutputDirectory);
   }
   async build(): Promise<void> {
     const schemas = gatherSchemas(this.schemaPath);
