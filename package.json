@@ -23,5 +23,8 @@
   "dependencies": {
     "command-line-args": "^5.1.1",
     "lerna": "^3.18.4"
+  },
+  "resolutions": {
+    "clean-css": "4.2.3"
   }
 }
