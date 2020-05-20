@@ -5,7 +5,7 @@ const tmp = require('tmp');
 
 const Decorators = require.resolve('@babel/plugin-proposal-decorators');
 const ClassProps = require.resolve('@babel/plugin-proposal-class-properties');
-const SchemaPlugin = require.resolve('./build/index');
+const SchemaPlugin = require.resolve('./build/index'); // eslint-disable-line node/no-missing-require
 
 tmp.setGracefulCleanup();
 
