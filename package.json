@@ -11,7 +11,8 @@
     "test:development": "lerna run test",
     "problems": "tsc -p tsconfig.json --noEmit --pretty false",
     "test:node": "lerna run test:node",
-    "test:production": "lerna run test:production"
+    "test:production": "lerna run test:production",
+    "test:fastboot": "lerna run test:fastboot"
   },
   "workspaces": [
     "packages/*"

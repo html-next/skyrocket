@@ -45,11 +45,11 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix:
-        command: [development, production]
+        command: [development, production, fastboot]
         launcher: [Chrome, IE, Firefox, Safari]
         os: [macos-latest, windows-latest, ubuntu-latest]
         exclude:
-          - launcher: Safari
+          # - launcher: Safari # if Safari gets a headless mode, delete this line
           - os: macos-latest
             launcher: IE
           - os: windows-latest
@@ -61,6 +61,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: (${{matrix.command}}) ${{matrix.launcher}} on ${{matrix.os}}
     steps:
+      - if: matrix.os == 'macos-latest' && matrix.launcher == 'Safari'
+        run: |
+          sudo apt-get install xvfb
       - if: matrix.os == 'macos-latest' && matrix.launcher == 'Chrome'
         run: |
           brew update
@@ -77,4 +80,7 @@ jobs:
       - name: Run Test
         env:
           TESTEM_CI_LAUNCHER: ${{ matrix.launcher }}
-        run: yarn test:${{ matrix.command }}
+        if: matrix.os == 'macos-latest' && matrix.launcher == 'Safari'
+          run: xvfb-run yarn test:${{ matrix.command }}
+        else:
+          run: yarn test:${{ matrix.command }}
