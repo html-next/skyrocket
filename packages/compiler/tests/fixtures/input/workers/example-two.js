@@ -1,6 +1,7 @@
-import Worker, { method, event } from "@skyrocketjs/worker";
-import { aUtil, anotherUtil } from "./example-two/utils";
-import util from "../app/a-util";
+import Worker, { event, method } from '@skyrocketjs/worker';
+
+import util from '../app/a-util';
+import { anotherUtil, aUtil } from './example-two/utils';
 
 export default class WorkerOne extends Worker {
   @method

@@ -1,4 +1,4 @@
-import Worker, { method, event } from "@skyrocketjs/worker";
+import Worker, { event, method } from '@skyrocketjs/worker';
 
 export default class WorkerOne extends Worker {
   @method

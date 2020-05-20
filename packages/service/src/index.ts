@@ -124,6 +124,7 @@ class AsyncWorker {
             throw new Error('disallowed method name');
           }
           this[fieldName] = method(fieldName, fieldConfig);
+          break;
         case 3: // signal
           // TODO reduce this limitation by using a WeakMap
           if (
@@ -142,11 +143,13 @@ class AsyncWorker {
             throw new Error('disallowed method name');
           }
           this[fieldName] = signal(fieldName, fieldConfig);
+          break;
         case 2: // event
           this.__events[fieldName] = {
             config: fieldConfig,
             handlers: new Set(),
           };
+          break;
         default:
           throw new Error(`Unknown field type`);
       }

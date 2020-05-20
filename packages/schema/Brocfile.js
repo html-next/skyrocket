@@ -1,12 +1,11 @@
 const babel = require('broccoli-babel-transpiler');
-
-const SchemaPlugin = require.resolve('./build/index');
 const Funnel = require('broccoli-funnel');
 const merge = require('broccoli-merge-trees');
+const tmp = require('tmp');
 
 const Decorators = require.resolve('@babel/plugin-proposal-decorators');
 const ClassProps = require.resolve('@babel/plugin-proposal-class-properties');
-const tmp = require('tmp');
+const SchemaPlugin = require.resolve('./build/index');
 
 tmp.setGracefulCleanup();
 

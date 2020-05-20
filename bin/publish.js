@@ -18,18 +18,14 @@ Flags
 
 Copied from EmberData
 */
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
 
 const debug = require('debug')('publish-packages');
 const chalk = require('chalk');
-
-const fs = require('fs');
-const path = require('path');
-
 const { shellSync } = require('execa');
 const cliArgs = require('command-line-args');
-
-const readline = require('readline');
-
 const semver = require('semver');
 
 const projectRoot = path.resolve(__dirname, '../');

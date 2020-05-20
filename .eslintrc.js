@@ -30,13 +30,12 @@ module.exports = {
   parser: 'babel-eslint',
   root: true,
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2018,
     sourceType: 'module',
   },
   plugins: ['prettier', 'qunit', 'simple-import-sort', 'import'],
   extends: ['eslint:recommended', 'prettier', 'plugin:qunit/recommended'],
   rules: {
-    'no-restricted-globals': ['error', { name: 'Promise', message: 'Global Promise does not work in IE11' }],
     'prettier/prettier': 'error',
     'no-unused-vars': ['error', { args: 'none' }],
     'no-cond-assign': ['error', 'except-parens'],
@@ -68,20 +67,19 @@ module.exports = {
     'qunit/resolve-async': 'off',
   },
   globals: {
-    heimdall: true,
-    Map: false,
+    Map: true,
     WeakMap: true,
     Set: true,
-    Promise: false,
+    Promise: true,
   },
   env: {
-    browser: true,
-    node: false,
+    browser: false,
+    node: true,
   },
   overrides: [
-    // TypeScript files
+    // TypeScript Node files
     {
-      files: ['**/*.ts'],
+      files: ['packages/schema/src/**/*.ts', 'packages/compiler/src/**/*.ts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         sourceType: 'module',
@@ -101,34 +99,42 @@ module.exports = {
         // https://github.com/benmosher/eslint-plugin-import/issues/1504
         'import/no-duplicates': 'warn',
       },
+      env: {
+        browser: false,
+        node: true,
+        es6: true,
+      },
     },
 
-    // node files
+    // JavaScript Node files
     {
       files: [
         '.eslintrc.js',
         '.prettierrc.js',
         'bin/**',
-        'packages/*/.ember-cli.js',
+        'packages/ember/.ember-cli.js',
         'packages/*/.eslintrc.js',
         'packages/*/.template-lintrc.js',
-        'packages/*/ember-cli-build.js',
+        'packages/ember/ember-cli-build.js',
+        'packages/*/Brocfile.js',
         'packages/*/index.js',
         'packages/*/testem.js',
         'packages/*/blueprints/*/index.js',
-        'packages/*/config/**/*.js',
-        'packages/*/tests/dummy/config/**/*.js',
+        'packages/ember/config/**/*.js',
+        'packages/ember/tests/dummy/config/**/*.js',
         'packages/*/tests/**/*.js',
       ],
       excludedFiles: [
-        'packages/*/addon/**',
-        'packages/*/addon-test-support/**',
-        'packages/*/app/**',
-        'packages/*/tests/dummy/app/**',
+        'packages/ember/addon/**',
+        'packages/ember/app/**',
+        'packages/ember/tests/**',
+        'packages/ember/tests/dummy/app/**',
+        'packages/compiler/tests/fixtures/**',
+        'packages/schema/tests/fixtures/**',
       ],
       parserOptions: {
         sourceType: 'script',
-        ecmaVersion: 2015,
+        ecmaVersion: 2018,
       },
       env: {
         browser: false,
@@ -147,9 +153,9 @@ module.exports = {
       },
     },
 
-    // node tests
+    // Node tests
     {
-      files: ['packages/*/tests/**'],
+      files: ['packages/*/tests/**/*-test.js'],
       excludedFiles: ['packages/ember/tests/**'],
       env: {
         qunit: true,
@@ -169,6 +175,64 @@ module.exports = {
         'node/no-unpublished-require': 'off',
         'node/no-unsupported-features/node-builtins': 'off',
       }),
+    },
+
+    // Browser Typescript Files
+    {
+      files: ['packages/worker/src/**/*.ts', 'packages/service/src/**/*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        sourceType: 'module',
+      },
+      plugins: ['@typescript-eslint', 'simple-import-sort', 'import'],
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/eslint-recommended'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
+        'no-unused-vars': 'off',
+        'require-atomic-updates': 'off',
+        'simple-import-sort/sort': ['error', { groups: ImportSortGroups }],
+        'sort-imports': 'off',
+        'import/order': 'off',
+        'import/first': 'error',
+        'import/newline-after-import': 'error',
+        // this rule doesn't work properly with --fix
+        // https://github.com/benmosher/eslint-plugin-import/issues/1504
+        'import/no-duplicates': 'warn',
+      },
+      env: {
+        browser: true,
+        node: false,
+        es6: true,
+      },
+    },
+
+    // Browser Javascript Files
+    {
+      extends: ['eslint:recommended', 'plugin:ember/recommended'],
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
+      env: {
+        browser: true,
+        node: false,
+      },
+      files: [
+        'packages/ember/addon/**',
+        'packages/ember/app/**',
+        'packages/ember/tests/**',
+        'packages/ember/tests/dummy/app/**',
+        'packages/compiler/tests/fixtures/**/*.js',
+        'packages/schema/tests/fixtures/**/*.js',
+      ],
+      excludedFiles: ['packages/ember/tests/dummy/config/**'],
+      globals: {
+        Promise: false,
+      },
+      rules: {
+        'ember/no-jquery': 'error',
+        'no-restricted-globals': ['error', { name: 'Promise', message: 'Global Promise does not work in IE11' }],
+      },
     },
   ],
 };

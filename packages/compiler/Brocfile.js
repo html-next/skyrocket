@@ -1,6 +1,7 @@
 const Funnel = require('broccoli-funnel');
-const compile = require('./build/index');
 const tmp = require('tmp');
+
+const compile = require('./build/index'); // eslint-disable-line node/no-missing-require
 
 tmp.setGracefulCleanup();
 

@@ -1,4 +1,4 @@
-import { getOwner } from "@ember/application";
+import { getOwner } from '@ember/application';
 
 export function worker(name) {
   return function decorator() {
@@ -10,11 +10,11 @@ export function worker(name) {
       get() {
         if (!worker) {
           worker = getOwner(this)
-            .lookup("service:-workers")
+            .lookup('service:-workers')
             .getWorker(name);
         }
         return worker;
-      }
+      },
     };
   };
 }

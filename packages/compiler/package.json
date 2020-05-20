@@ -22,7 +22,8 @@
     "broccoli": "^3.2.0",
     "broccoli-debug": "^0.6.5",
     "broccoli-funnel": "^3.0.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "tmp": "^0.2.1"
   },
   "engines": {
     "node": ">= 12.*"

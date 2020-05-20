@@ -1,5 +1,6 @@
-import WorkerService from "@skyrocketjs/service";
-import { getOwner, setOwner } from "@ember/application";
+import { getOwner, setOwner } from '@ember/application';
+
+import WorkerService from '@skyrocketjs/service';
 
 export default class EmberWorkerService extends WorkerService {
   static create(args) {
