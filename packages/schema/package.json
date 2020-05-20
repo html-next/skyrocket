@@ -13,7 +13,7 @@
   "scripts": {
     "prepublishOnly": "yarn build",
     "build": "tsc --build src/tsconfig.json",
-    "test": "yarn build && qunit tests/run.js"
+    "test:node": "yarn build && qunit tests/run.js"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.0",

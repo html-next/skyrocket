@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - beta
+      - release
+      - 'release-*'
+      - 'lts-*'
+    tags:
+      - '*'
+
+jobs:
+  lint:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Yarn install
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint
+      - name: Check for TypeScript problems
+        run: yarn problems
+
+  node-tests:
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Yarn install
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn test:node
+
+  browser-tests:
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - if: matrix.os == 'macos-latest'
+        run: |
+          brew update
+          brew cask install google-chrome
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Launcher Info
+        run: |
+          yarn run testem launchers
+      - name: Basic tests
+        run: yarn test
