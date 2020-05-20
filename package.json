@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint:js": "echo 1",
+    "lint": "eslint --cache --ext=js,ts .",
     "test": "echo 1"
   },
   "workspaces": [
@@ -20,9 +20,25 @@
     "node": "14.3.0",
     "yarn": "1.22.4"
   },
+  "pre-commit": [
+    "lint --fix"
+  ],
   "dependencies": {
     "command-line-args": "^5.1.1",
-    "lerna": "^3.18.4"
+    "lerna": "^3.18.4",
+    "pre-commit": "^1.2.2",
+    "@typescript-eslint/eslint-plugin": "^2.32.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint": "^6.8.0",
+    "babel-eslint": "^10.1.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-ember": "^8.5.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-qunit": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^5.0.3",
+    "prettier": "^1.19.1"
   },
   "resolutions": {
     "clean-css": "4.2.3"
