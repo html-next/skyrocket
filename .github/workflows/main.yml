@@ -49,6 +49,7 @@ jobs:
         launcher: [Chrome, IE, Firefox, Safari]
         os: [macos-latest, windows-latest, ubuntu-latest]
         exclude:
+          - launcher: Safari
           - os: macos-latest
             launcher: IE
           - os: windows-latest
@@ -58,7 +59,7 @@ jobs:
           - os: ubuntu-latest
             launcher: Safari
     runs-on: ${{ matrix.os }}
-    name: Test ${{matrix.command}} in ${{matrix.launcher}} on ${{matrix.os}}
+    name: (${{matrix.command}}) ${{matrix.launcher}} on ${{matrix.os}}
     steps:
       - if: matrix.os == 'macos-latest' && matrix.launcher == 'Chrome'
         run: |
