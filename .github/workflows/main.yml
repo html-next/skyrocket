@@ -47,7 +47,7 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
         launcher: [Chrome, IE, Firefox, Safari]
-        command: [test, test:production]
+        command: [test, 'test:production']
         exclude:
           - os: macos-latest
             launcher: IE
