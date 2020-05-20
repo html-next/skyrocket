@@ -5,6 +5,7 @@ vendor/
 # compiled output
 dist/
 tmp/
+build/
 
 # dependencies
 bower_components/
