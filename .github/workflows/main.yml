@@ -58,6 +58,10 @@ jobs:
           - os: ubuntu-latest
             launcher: Safari
     runs-on: ${{ matrix.os }}
+    if: ${{ matrix.command }} == 'test:production'
+      name: Production Test in ${{matrix.launcher}} on ${{matrix.os}}
+    if: ${{ matrix.command }} == 'test'
+       name: Development Test in ${{matrix.launcher}} on ${{matrix.os}}
     steps:
       - if: matrix.os == 'macos-latest' && matrix.launcher == 'Chrome'
         run: |
