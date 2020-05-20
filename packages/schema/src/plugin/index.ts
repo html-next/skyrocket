@@ -121,7 +121,7 @@ function importsForSchema(
 
 function parseField(
   schema: ParsedSchema,
-  path: NodePath<BabelTypes.ClassProperty | BabelTypes.ClassMethod>,
+  path: NodePath<BabelTypes.ClassProperty> | NodePath<BabelTypes.ClassMethod>,
   fields: Field[]
 ) {
   const identifier = path.node.key as Identifier;
@@ -284,7 +284,7 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
 
     visitor: {
       Program: {
-        enter(path: NodePath, state: PluginOptions) {
+        enter(path: NodePath<BabelTypes.Program>, state: PluginOptions) {
           const config = state.opts;
           const { schemaSourceFiles, filePrefix, removeDecorators } = config;
           const fileName = path.hub.file.opts.sourceFileName;
@@ -295,7 +295,7 @@ function skyrocketSchemaParser(babel: Babel): BabelPlugin {
           shouldRemoveDecorators = removeDecorators || false;
           sourceFiles = schemaSourceFiles;
         },
-        exit(path: NodePath, state: PluginOptions) {
+        exit(path: NodePath<BabelTypes.Program>, state: PluginOptions) {
           if (definitions.length) {
             const fileName = path.hub.file.opts.sourceFileName;
             const config = {
