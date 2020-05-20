@@ -61,7 +61,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: (${{matrix.command}}) ${{matrix.launcher}} on ${{matrix.os}}
     steps:
-      - if: matrix.os == 'macos-latest' && matrix.launcher == 'Safari'
+      - if: matrix.launcher == 'Safari'
         run: |
           sudo apt-get install xvfb
       - if: matrix.os == 'macos-latest' && matrix.launcher == 'Chrome'
@@ -77,10 +77,13 @@ jobs:
       - name: Launcher Info
         run: |
           yarn run testem launchers
-      - name: Run Test
+      - name: Run Test w/xvfb
         env:
           TESTEM_CI_LAUNCHER: ${{ matrix.launcher }}
-        if: matrix.os == 'macos-latest' && matrix.launcher == 'Safari'
-          run: xvfb-run yarn test:${{ matrix.command }}
-        else:
-          run: yarn test:${{ matrix.command }}
+        if: matrix.launcher == 'Safari'
+        run: xvfb-run yarn test:${{ matrix.command }}
+      - name: Run Test
+        if: matrix.launcher != 'Safari'
+        env:
+          TESTEM_CI_LAUNCHER: ${{ matrix.launcher }}
+        run: yarn test:${{ matrix.command }}
