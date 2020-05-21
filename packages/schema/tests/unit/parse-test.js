@@ -1,12 +1,24 @@
 const QUnit = require('qunit');
 
-const { module: testModule, test } = QUnit;
+const fixtureBuilder = require('../helpers/fixture-builder');
 const setupTest = require('../helpers/setup');
 
-testModule('Package Detection', function(hooks) {
-  setupTest(hooks);
+const { module: testModule, test } = QUnit;
 
-  test('a test', function(assert) {
+testModule('Package Detection', async function(hooks) {
+  setupTest(hooks);
+  let builder;
+
+  hooks.beforeEach(async function() {
+    builder = fixtureBuilder();
+    await builder.build();
+  });
+
+  hooks.afterEach(async function() {
+    await builder.discard();
+  });
+
+  test('a test', async function(assert) {
     assert.ok(true, 'We are running');
   });
 });
