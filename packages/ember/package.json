@@ -25,6 +25,7 @@
     "ember-cli-htmlbars": "^5.1.2"
   },
   "devDependencies": {
+    "selenium-webdriver": "^4.0.0-alpha.7",
     "@ember/optional-features": "^1.0.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.18.0",

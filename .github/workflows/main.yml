@@ -49,7 +49,6 @@ jobs:
         launcher: [Chrome, IE, Firefox, Safari]
         os: [macos-latest, windows-latest, ubuntu-latest]
         exclude:
-          # - launcher: Safari # if Safari gets a headless mode, delete this line
           - os: macos-latest
             launcher: IE
           - os: windows-latest
