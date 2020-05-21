@@ -1,19 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+const iterate = require('./helpers/iterate');
 
-function iterate(directoryPath) {
-  const dir = fs.readdirSync(directoryPath);
-
-  dir.forEach(potentialDir => {
-    let fullPath = path.join(directoryPath, potentialDir);
-    let stats = fs.lstatSync(fullPath);
-
-    if (stats.isDirectory()) {
-      iterate(fullPath);
-    } else if (fullPath.endsWith('-test.js')) {
-      require(fullPath);
-    }
-  });
-}
-
-iterate(__dirname);
+iterate(__dirname, fullPath => {
+  if (fullPath.endsWith('-test.js')) {
+    require(fullPath);
+  }
+});
