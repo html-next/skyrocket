@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-console
-console.log(`\n\nLaunching with ${process.env.TESTEM_CI_LAUNCHER || 'Chrome'}n\n`);
+console.log(`\n\nLaunching with ${process.env.TESTEM_CI_LAUNCHER || 'Chrome'}\n\n`);
 
 module.exports = {
   test_page: 'tests/index.html?hidepassed',

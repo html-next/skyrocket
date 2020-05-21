@@ -17,7 +17,7 @@
     "build": "ember build",
     "lint:hbs": "ember-template-lint .",
     "start": "ember serve",
-    "test": "ember test",
+    "test": "ember test --output-path=dist",
     "test:all": "ember try:each"
   },
   "dependencies": {
