@@ -33,7 +33,7 @@ function formatSchema(schema: Schema): string {
     throw new Error(`Invalid SkyrocketWorker Schema`);
   }
   let fields = optimizeFields(defs[0].fields);
-  return `export default '${JSON.stringify(fields)}'`;
+  return `export default '${JSON.stringify(fields)}';\n`;
 }
 
 function writeModules(moduleList: OptimizedSchemas, directory: string) {

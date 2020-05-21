@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 const QUnit = require('qunit');
 
@@ -20,11 +21,11 @@ function collect(rootPath, cache) {
       currentCache = currentCache[segment];
     }
 
-    lastCache[lastSegment] = require(fullPath);
+    lastCache[lastSegment] = fs.readFileSync(fullPath, { encoding: 'utf-8' });
   });
 }
 
-testModule('Schema Parsing', async function(hooks) {
+testModule('Schema Compilation', async function(hooks) {
   setupTest(hooks);
   let builder;
   let expectedArtifacts = {};
@@ -32,16 +33,24 @@ testModule('Schema Parsing', async function(hooks) {
 
   hooks.before(async function() {
     builder = fixtureBuilder();
-    collect(path.join(__dirname, '../fixtures/output/parsed-schemas'), expectedArtifacts);
+    collect(path.join(__dirname, '../fixtures/output/'), expectedArtifacts);
     await builder.build();
-    collect(path.join(builder.outputPath, 'parsed-schemas'), builtArtifacts);
+    collect(path.join(builder.outputPath, ''), builtArtifacts);
   });
 
   hooks.after(async function() {
     await builder.discard();
   });
 
-  test('Artifacts built correctly (development)', async function(assert) {
+  test('We arent missing stuff', async function(assert) {
     assert.deepEqual(builtArtifacts, expectedArtifacts, 'We built only what we expected');
+  });
+
+  test('We compiled optimized schema artifacts correctly', async function(assert) {
+    assert.deepEqual(builtArtifacts.schemas, expectedArtifacts.schemas, 'We built only what we expected');
+  });
+
+  test('We compiled worker scripts correctly', async function(assert) {
+    assert.deepEqual(builtArtifacts.workers, expectedArtifacts.workers, 'We built only what we expected');
   });
 });

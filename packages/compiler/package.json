@@ -7,23 +7,26 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "prepublishOnly": "tsc --build src/tsconfig.json"
+    "prepublishOnly": "yarn build",
+    "build": "tsc --build src/tsconfig.json",
+    "test:node": "yarn build && qunit tests/run.js"
   },
   "dependencies": {
+    "@skyrocketjs/schema": "0.0.1-alpha.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
     "@babel/plugin-syntax-decorators": "^7.2.0",
     "broccoli-babel-transpiler": "^7.3.0",
-    "broccoli-rollup": "^4.1.1"
+    "broccoli-rollup": "^4.1.1",
+    "broccoli-funnel": "^3.0.0",
+    "broccoli-debug": "^0.6.5",
+    "tmp": "^0.2.1"
   },
   "devDependencies": {
-    "@skyrocketjs/schema": "0.0.1-alpha.0",
     "@types/node": "^14.0.4",
     "broccoli": "^3.2.0",
-    "broccoli-debug": "^0.6.5",
-    "broccoli-funnel": "^3.0.0",
     "typescript": "^3.7.2",
-    "tmp": "^0.2.1"
+    "qunit": "^2.10.0"
   },
   "engines": {
     "node": ">= 12.*"
