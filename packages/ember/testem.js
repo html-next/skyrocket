@@ -1,21 +1,11 @@
 // eslint-disable-next-line no-console
 console.log(`\n\nLaunching with ${process.env.TESTEM_CI_LAUNCHER || 'Chrome'}\n\n`);
 
-const SafariLauncher = {
-  name: 'Safari',
-  protocol: 'browser',
-  setup(_, done) {
-    const url = this.getUrl();
-    this.settings.command = 'node ./safari-driver.js ' + url;
-    done();
-  },
-};
-
 module.exports = {
   test_page: 'tests/index.html?hidepassed',
   disable_watching: true,
   launchers: {
-    Safari: SafariLauncher,
+    Safari: require('testem-safari-webdriver-launcher'),
   },
   launch_in_ci: [process.env.TESTEM_CI_LAUNCHER || 'Chrome'],
   launch_in_dev: ['Chrome'],
