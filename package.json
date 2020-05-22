@@ -20,7 +20,11 @@
       "packages/*"
     ],
     "nohoist": [
-      "**/@skyrocketjs/worker"
+      "**/@skyrocketjs/worker",
+      "**/@skyrocketjs/schema",
+      "**/@skyrocketjs/compiler",
+      "**/@skyrocketjs/service",
+      "**/@skyrocketjs/ember"
     ]
   },
   "engines": {
