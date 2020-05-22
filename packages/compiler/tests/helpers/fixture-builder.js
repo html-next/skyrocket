@@ -1,3 +1,5 @@
+const path = require('path');
+
 const Funnel = require('broccoli-funnel');
 const { Builder } = require('broccoli');
 
@@ -5,7 +7,7 @@ const compile = require('../../build/index'); // eslint-disable-line node/no-mis
 
 module.exports = () => {
   const app = new Funnel('tests/fixtures/input');
-  const compiledTree = compile(app);
+  const compiledTree = compile(app, { projectRoot: path.resolve('../../') });
   const builder = new Builder(compiledTree);
 
   builder.discard = async () => {

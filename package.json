@@ -12,11 +12,17 @@
     "problems": "tsc -p tsconfig.json --noEmit --pretty false",
     "test:node": "lerna run test:node",
     "test:production": "lerna run test:production",
-    "test:fastboot": "lerna run test:fastboot"
+    "test:fastboot": "lerna run test:fastboot",
+    "build": "lerna run build"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@skyrocketjs/worker"
+    ]
+  },
   "engines": {
     "node": ">= 12.0.0"
   },

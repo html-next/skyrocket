@@ -74,9 +74,9 @@ function createShell(Global: Context, schema: OptimizedSchema, WorkerMain: typeo
 
   function send(data: any, id: number) {
     if (data instanceof Error) {
-      Global.postMessage([SkyrocketMessageIdentifier, data, id]);
-    } else {
       Global.postMessage([SkyrocketErrorIdentifier, data, id]);
+    } else {
+      Global.postMessage([SkyrocketMessageIdentifier, data, id]);
     }
   }
 

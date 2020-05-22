@@ -12,21 +12,23 @@
     "test:node": "yarn build && qunit tests/run.js"
   },
   "dependencies": {
-    "@skyrocketjs/schema": "0.0.1-alpha.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
     "@babel/plugin-syntax-decorators": "^7.2.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@skyrocketjs/schema": "0.0.1-alpha.0",
+    "@skyrocketjs/worker": "0.0.1-alpha.0",
     "broccoli-babel-transpiler": "^7.3.0",
-    "broccoli-rollup": "^4.1.1",
-    "broccoli-funnel": "^3.0.0",
     "broccoli-debug": "^0.6.5",
+    "broccoli-funnel": "^3.0.0",
+    "broccoli-rollup": "^4.1.1",
     "tmp": "^0.2.1"
   },
   "devDependencies": {
     "@types/node": "^14.0.4",
     "broccoli": "^3.2.0",
-    "typescript": "^3.7.2",
-    "qunit": "^2.10.0"
+    "qunit": "^2.10.0",
+    "typescript": "^3.7.2"
   },
   "engines": {
     "node": ">= 12.*"

@@ -1,6 +1,6 @@
 {
   "name": "unpublished-ember-app-compiler-test",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "private": true,
   "description": "Small description for unpublished-ember-app-compiler-test goes here",
   "repository": "",
@@ -16,8 +16,17 @@
     "test": "ember test --output-path=dist --test-port=0",
     "test:production": "ember test -e production --output-path=dist --test-port=0"
   },
+  "workspaces": {
+    "nohoist": [
+      "@skyrocketjs/worker"
+    ]
+  },
   "devDependencies": {
     "@ember/optional-features": "^1.3.0",
+    "@skyrocketjs/ember": "0.0.1-alpha.0",
+    "@skyrocketjs/schema": "0.0.1-alpha.0",
+    "@skyrocketjs/service": "0.0.1-alpha.0",
+    "@skyrocketjs/worker": "0.0.1-alpha.0",
     "@glimmer/component": "^1.0.0",
     "@glimmer/tracking": "^1.0.0",
     "broccoli-asset-rev": "^3.0.0",

@@ -11,7 +11,9 @@
     "test": "tests"
   },
   "scripts": {
-    "prepublishOnly": "tsc --build src/tsconfig.json"
+    "prepublishOnly": "yarn build",
+    "build": "tsc --build src/tsconfig.json",
+    "test:node": "yarn build"
   },
   "engines": {
     "node": ">= 12.*"

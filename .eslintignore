@@ -6,6 +6,7 @@ vendor/
 dist/
 tmp/
 build/
+DEBUG/
 
 # dependencies
 bower_components/

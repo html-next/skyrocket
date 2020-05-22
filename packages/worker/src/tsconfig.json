@@ -1,3 +1,23 @@
 {
-  "extends": "../../../tsconfig.json"
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "ES2020",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "allowJs": false,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noEmitOnError": false,
+    "strictNullChecks": true,
+    "experimentalDecorators": false,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "outDir": "../build",
+    "lib": ["webworker", "es2017", "scripthost", "dom"]
+  },
+  "files": ["index.ts", "shell/index.ts", "program/index.ts"],
+  "exclude": ["../node_modules/**", "../../../node_modules/**"]
 }

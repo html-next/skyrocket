@@ -1,6 +1,10 @@
-import Formatter from './formatter';
-import Rollup from './rollup';
+import nodeResolve from '@rollup/plugin-node-resolve';
 
+import Formatter from './formatter';
+import Launchers from './launchers';
+import rollupLaunchers from './rollup';
+
+const path = require('path');
 const babel = require('broccoli-babel-transpiler');
 const merge = require('broccoli-merge-trees');
 const Funnel = require('broccoli-funnel');
@@ -14,16 +18,22 @@ const tmp = require('tmp');
 
 tmp.setGracefulCleanup();
 
-module.exports = function compile(node: any) {
+module.exports = function compile(node: any, options: { projectRoot: string }) {
   const tmpobj = tmp.dirSync();
-  // acorn used by rollup doesn't support decorators or class fields
-  // we don't do a full parse here, we just want to grab info.
+  /*
+    Grab just the files in workers/ for schema parsing
+  */
+  const schemaTree = debug(
+    new Funnel(node, {
+      srcDir: 'workers',
+      destDir: 'workers',
+    }),
+    'schema-tree'
+  );
 
-  const schemaTree = new Funnel(node, {
-    srcDir: 'workers',
-    destDir: 'workers',
-  });
-
+  /*
+   Parse out the schema info into tmpobj.name directory
+  */
   const parsedSchemas = debug(
     babel(schemaTree, {
       throwUnlessParallelizable: true,
@@ -45,16 +55,9 @@ module.exports = function compile(node: any) {
     'babel-schemas'
   );
 
-  const pullTree = merge([node, parsedSchemas], { overwrite: true });
-
-  const parsedRollup = debug(
-    babel(pullTree, {
-      throwUnlessParallelizable: true,
-      plugins: [[Decorators, { decoratorsBeforeExport: false }], [ClassProps]],
-    }),
-    'babel-rollup'
-  );
-
+  /*
+    Generate the schema modules
+  */
   const withSchemas = debug(
     new Formatter({
       schemaPath: tmpobj.name,
@@ -63,18 +66,57 @@ module.exports = function compile(node: any) {
     'schemas'
   );
 
-  const rollup = debug(
-    new Rollup(parsedRollup, {
+  /*
+    Generate worker launcher scripts
+  */
+  const withLaunchers = debug(
+    new Launchers({
+      schemaPath: tmpobj.name,
+    }),
+    'launchers'
+  );
+
+  /*
+    Our schema scan has to be "pulled" during broccoli compilation
+    in order to run, so we merge it back in.
+  */
+  const pullTree = debug(merge([node, parsedSchemas, withSchemas, withLaunchers], { overwrite: true }), 'pull-tree');
+
+  /*
+    Process our JS from app and workers in advance of rollup
+    because rollup cannot handle decorators or class properties
+  */
+  const parsedForRollup = debug(
+    babel(pullTree, {
+      throwUnlessParallelizable: true,
+      plugins: [[Decorators, { decoratorsBeforeExport: false }], [ClassProps]],
+    }),
+    'babel-rollup'
+  );
+
+  /*
+    Convert our worker files into stand-alone executables with the proper
+    shell to communicate with the @skyrocketjs/service
+  */
+  const rollupTree = debug(
+    rollupLaunchers(parsedForRollup, {
       cache: true, // likely need to make sure this is keyed to the output of the schemas
       schemaPath: tmpobj.name,
+      nodeModulesPath: path.join(options.projectRoot, 'node_modules'),
       rollup: {
         // these options assigned later
         input: '',
         output: {},
+        plugins: [
+          nodeResolve({
+            browser: true,
+            modulesOnly: true,
+          }),
+        ],
       },
     }),
     'rollup'
   );
 
-  return merge([rollup, withSchemas]);
+  return merge([rollupTree, withSchemas]);
 };

@@ -14,7 +14,8 @@ type Payload = ['-srwm' | '-srwme', any?, number?];
 function syncImportSchema(name: string) {
   // The web does not have a dynamic sync import
   //  so we are forced to do something annoying
-  const appName = Ember.Namespace.NAMESPACES[2].name;
+  const app = Ember.Namespace.NAMESPACES[1] || Ember.Namespace.NAMESPACES[0];
+  const appName = app.name;
   let moduleName = `${appName}/schemas/workers/${name}`;
   return requirejs(moduleName).default;
 }
@@ -87,6 +88,10 @@ type ValidEvents = {
 };
 type OnMessage = (...args: any[]) => void;
 
+function underscore(str: string): string {
+  return str.replace(/-/g, '_');
+}
+
 class AsyncWorker {
   public __pending: PendingRequests = new Map<number, Deferred>();
   public __events: ValidEvents = Object.create(null);
@@ -97,7 +102,7 @@ class AsyncWorker {
   [methodName: string]: any | Method | Signal;
 
   constructor(private _name: string, private _schema: OptimizedSchema) {
-    this.url = `/workers/${_name}.js`;
+    this.url = `/workers/${underscore(_name)}__launcher.js`;
     // TODO read into worker config options
     this.worker = new Worker(this.url);
     for (let i = 0; i < _schema.length; i += 3) {
