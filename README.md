@@ -17,8 +17,6 @@ To learn more about the individual packages, visit the corresponding package `RE
 
 - [🚀🐹@skyrocketjs/ember](./packages/ember/README.md)
 
-⚠️ Unpublished ⚠️
-
 An ember-addon which enables your ember-app or ember-addon to have workers built with
 `@skyrocketjs/worker` located in a top-level `workers/` directory that are useable by
 consuming apps via service-like injection.
@@ -49,8 +47,6 @@ This is reusable by many projects, but won't need to be configured directly for 
 of `@skyrocketjs/ember`.
 
 - [🚀@skyrocketjs/service](./packages/service/README.md)
-
-⚠️ Unpublished ⚠️
 
 Service wrapper for instantiating workers on the main thread. Meant to be generic but tied
 to `Ember` in the current `alpha` while a plan for either synchronous or asynchronous dynamic
