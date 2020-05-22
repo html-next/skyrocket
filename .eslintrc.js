@@ -98,12 +98,7 @@ module.exports = {
         // this rule doesn't work properly with --fix
         // https://github.com/benmosher/eslint-plugin-import/issues/1504
         'import/no-duplicates': 'warn',
-        'node/no-missing-require': [
-          'error',
-          {
-            resolvePaths: ['**/node_modules'],
-          },
-        ],
+        'node/no-missing-require': 'off',
       },
       env: {
         browser: false,
@@ -164,12 +159,7 @@ module.exports = {
         'import/newline-after-import': 'error',
         'import/no-duplicates': 'error',
         'import/order': ['error', { 'newlines-between': 'always' }],
-        'node/no-missing-require': [
-          'error',
-          {
-            resolvePaths: ['**/node_modules'],
-          },
-        ],
+        'node/no-missing-require': 'off',
       },
     },
 
