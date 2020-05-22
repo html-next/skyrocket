@@ -4,7 +4,7 @@ Babel AST plugin for constructing schemas from decorators and classes
 
 If using `@skyrocketjs/ember` or `@skyrocketjs/compiler`
 you do not need to install or configure this plugin
-unless you have additional schema info you with to process and use.
+unless you have additional schema info you wish to process and use.
 
 ## Overview
 
