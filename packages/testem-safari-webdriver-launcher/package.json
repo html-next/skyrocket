@@ -1,7 +1,7 @@
 {
   "name": "testem-safari-webdriver-launcher",
   "private": true,
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "main": "src/launcher.js",
   "dependencies": {
     "selenium-webdriver": "^4.0.0-alpha.7"

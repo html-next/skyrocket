@@ -1,6 +1,6 @@
 {
   "name": "@skyrocketjs/worker",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "description": "Message passing infrastructure for WebWorkers",
   "main": "build/index.js",
   "private": false,
