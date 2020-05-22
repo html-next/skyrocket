@@ -1,4 +1,7 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
+
 const compileSchemas = require('@skyrocketjs/compiler');
 const Funnel = require('broccoli-funnel');
 const merge = require('broccoli-merge-trees');
@@ -14,26 +17,38 @@ module.exports = {
 
   treeForApp(tree) {
     this.treeForPublic();
-    let schemaTree = this.debugTree(
-      new Funnel(this.workerTree, { srcDir: 'schemas', destDir: 'schemas', allowEmpty: true }),
-      'final-schemas'
-    );
-    return this.debugTree(merge([tree, schemaTree]), 'addon-app-tree');
+    if (this.workerTree) {
+      let schemaTree = this.debugTree(
+        new Funnel(this.workerTree, { srcDir: 'schemas', destDir: 'schemas', allowEmpty: true }),
+        'final-schemas'
+      );
+      return this.debugTree(merge([tree, schemaTree]), 'addon-app-tree');
+    }
+    return tree;
   },
   treeForPublic() {
     let root = this.parent.root;
-    let funneled = this.debugTree(
-      merge([
-        new Funnel(root, { srcDir: 'app', destDir: 'app' }),
-        new Funnel(root, { srcDir: 'workers', destDir: 'workers' }),
-      ]),
-      'funneled'
-    );
-    let workerTree = this.debugTree(compileSchemas(funneled, { projectRoot: root }), 'worker-tree');
-    this.workerTree = workerTree;
-    return new Funnel(workerTree, {
-      srcDir: 'workers',
-      destDir: 'workers',
-    });
+    let workersDir = path.join(root, 'workers');
+    this.workerTree = null;
+
+    if (fs.existsSync(workersDir)) {
+      let files = fs.readdirSync(workersDir);
+
+      if (files.length) {
+        let funneled = this.debugTree(
+          merge([
+            new Funnel(root, { srcDir: 'app', destDir: 'app', allowEmpty: true }),
+            new Funnel(root, { srcDir: 'workers', destDir: 'workers', allowEmpty: true }),
+          ]),
+          'funneled'
+        );
+        let workerTree = this.debugTree(compileSchemas(funneled, { projectRoot: root }), 'worker-tree');
+        this.workerTree = workerTree;
+        return new Funnel(workerTree, {
+          srcDir: 'workers',
+          destDir: 'workers',
+        });
+      }
+    }
   },
 };

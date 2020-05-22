@@ -8,12 +8,12 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext=js,ts .",
-    "test:development": "lerna run test",
+    "test:development": "yarn build && lerna run test",
     "problems": "tsc -p tsconfig.json --noEmit --pretty false",
-    "test:node": "lerna run test:node",
-    "test:production": "lerna run test:production",
-    "test:fastboot": "lerna run test:fastboot",
-    "build": "lerna run build"
+    "test:node": "yarn build && lerna run test:node",
+    "test:production": "yarn build && lerna run test:production",
+    "test:fastboot": "yarn build && lerna run test:fastboot",
+    "build": "lerna run prepublishOnly"
   },
   "workspaces": {
     "packages": [

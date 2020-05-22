@@ -69,10 +69,10 @@ function createShell(Global, schema, WorkerMain) {
     }
     function send(data, id) {
         if (data instanceof Error) {
-            Global.postMessage([SkyrocketMessageIdentifier, data, id]);
+            Global.postMessage([SkyrocketErrorIdentifier, data, id]);
         }
         else {
-            Global.postMessage([SkyrocketErrorIdentifier, data, id]);
+            Global.postMessage([SkyrocketMessageIdentifier, data, id]);
         }
     }
     Global.onmessage = recieve;
@@ -126,4 +126,4 @@ class WorkerOne extends SkyrocketWorker {
 
 var schema = '[1,"fetchUsers",0,2,"reload",0]';
 
-setupWorkerShell(global, schema, WorkerOne);
+setupWorkerShell(self, schema, WorkerOne);
