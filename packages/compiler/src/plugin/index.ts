@@ -3,6 +3,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import Formatter from './formatter';
 import Launchers from './launchers';
 import rollupLaunchers from './rollup';
+import SchemaSRIGenerator from './schema-sri-generator';
 
 const path = require('path');
 const babel = require('broccoli-babel-transpiler');
@@ -118,5 +119,13 @@ module.exports = function compile(node: any, options: { projectRoot: string }) {
     'rollup'
   );
 
-  return merge([rollupTree, withSchemas]);
+  const togetherAgainTree = merge([rollupTree, withSchemas]);
+  const finalTree = debug(
+    new SchemaSRIGenerator(togetherAgainTree, {
+      schemaPath: tmpobj.name,
+    }),
+    'schemas-with-sri'
+  );
+
+  return merge([rollupTree, finalTree]);
 };

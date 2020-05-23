@@ -15,7 +15,7 @@ function syncImportSchema(name: string) {
   // The web does not have a dynamic sync import
   //  so we are forced to do something annoying
   const app = Ember.Namespace.NAMESPACES[1] || Ember.Namespace.NAMESPACES[0];
-  const appName = app.name;
+  const appName = app.modulePrefix || app.name;
   let moduleName = `${appName}/schemas/workers/${name}`;
   return requirejs(moduleName).default;
 }
@@ -98,11 +98,13 @@ class AsyncWorker {
   public onmessage?: OnMessage;
   public url: string;
   public worker: Worker;
+  private _sriHash: string;
 
   [methodName: string]: any | Method | Signal;
 
-  constructor(private _name: string, private _schema: OptimizedSchema) {
-    this.url = `/workers/${underscore(_name)}__launcher.js`;
+  constructor(private _name: string, private _schema: OptimizedSchema, private _useSRI = false) {
+    this._sriHash = _schema.shift();
+    this.url = `/workers/${underscore(_name)}__launcher${_useSRI ? '-' + this._sriHash : ''}.js`;
     // TODO read into worker config options
     this.worker = new Worker(this.url);
     for (let i = 0; i < _schema.length; i += 3) {
@@ -198,12 +200,13 @@ class AsyncWorker {
 }
 
 export default class SkyrocketService {
+  public useSRI: boolean = false;
   private _workers: { [name: string]: AsyncWorker } = Object.create(null);
   getWorker(name: string): AsyncWorker {
     let worker = this._workers[name];
     if (worker === undefined) {
       const schema = getSchema(name);
-      worker = this._workers[name] = new AsyncWorker(name, schema);
+      worker = this._workers[name] = new AsyncWorker(name, schema, this.useSRI);
     }
     return worker;
   }
