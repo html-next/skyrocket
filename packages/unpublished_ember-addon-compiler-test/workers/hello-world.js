@@ -1,4 +1,5 @@
 import Worker, { method } from '@skyrocketjs/worker';
+import Promise from 'rsvp';
 
 export default class HelloWorldWorker extends Worker {
   @method

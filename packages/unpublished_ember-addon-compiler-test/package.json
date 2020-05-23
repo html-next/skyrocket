@@ -21,7 +21,8 @@
   },
   "workspaces": {
     "nohoist": [
-      "@skyrocketjs/worker"
+      "@skyrocketjs/worker",
+      "rsvp"
     ]
   },
   "dependencies": {
@@ -55,6 +56,7 @@
     "ember-try": "^1.4.0",
     "loader.js": "^4.7.0",
     "qunit-dom": "^1.2.0",
+    "rsvp": "^4.8.5",
     "testem-safari-webdriver-launcher": "0.0.1-alpha.3"
   },
   "engines": {
