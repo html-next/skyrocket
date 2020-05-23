@@ -60,6 +60,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: (${{matrix.command}}) ${{matrix.launcher}} on ${{matrix.os}}
     steps:
+      - if: matrix.launcher == 'Safari'
+        run: sudo safaridriver --enable
       - if: matrix.os == 'macos-latest' && matrix.launcher == 'Chrome'
         run: |
           brew update
