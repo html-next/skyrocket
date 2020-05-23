@@ -8,7 +8,7 @@ module.exports = {
     Safari: require('testem-safari-webdriver-launcher'),
   },
   launch_in_ci: [process.env.TESTEM_CI_LAUNCHER || 'Chrome'],
-  launch_in_dev: ['Chrome'],
+  launch_in_dev: [process.env.TESTEM_CI_LAUNCHER || 'Chrome'],
   browser_start_timeout: 120,
   browser_args: {
     Chrome: {

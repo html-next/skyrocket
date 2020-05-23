@@ -54,7 +54,8 @@
     "ember-template-lint": "^2.6.0",
     "ember-try": "^1.4.0",
     "loader.js": "^4.7.0",
-    "qunit-dom": "^1.2.0"
+    "qunit-dom": "^1.2.0",
+    "testem-safari-webdriver-launcher": "0.0.1-alpha.3"
   },
   "engines": {
     "node": ">= 12"
