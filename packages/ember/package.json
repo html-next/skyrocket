@@ -1,6 +1,6 @@
 {
   "name": "@skyrocketjs/ember",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -21,7 +21,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "@skyrocketjs/compiler": "0.0.1-alpha.1",
+    "@skyrocketjs/compiler": "0.0.1-alpha.2",
     "broccoli-debug": "^0.6.5",
     "broccoli-funnel": "^3.0.3",
     "broccoli-merge-trees": "^4.2.0",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^1.0.0",
-    "@skyrocketjs/service": "0.0.1-alpha.1",
+    "@skyrocketjs/service": "0.0.1-alpha.2",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.18.0",
     "ember-cli-dependency-checker": "^3.1.0",
@@ -46,7 +46,7 @@
     "ember-try": "^1.2.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^1.2.0",
-    "testem-safari-webdriver-launcher": "0.0.1-alpha.1"
+    "testem-safari-webdriver-launcher": "0.0.1-alpha.2"
   },
   "engines": {
     "node": "8.* || >= 10.*"

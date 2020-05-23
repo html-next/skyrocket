@@ -1,6 +1,6 @@
 {
   "name": "@skyrocketjs/service",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "description": "Service wrapper for instantiating workers on the main thread",
   "main": "build/index.js",
   "repository": "",
