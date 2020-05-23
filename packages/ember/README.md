@@ -28,7 +28,7 @@ a new worker in a top-level `workers/` directory in your project.
 > }
 > ```
 
-Read [🚀@skyrocketjs/worker](./packages/worker/README.md) for full documentation of the features and APIs available to these workers.
+Read [🚀@skyrocketjs/worker](../worker/README.md) for full documentation of the features and APIs available to these workers.
 
 Once you've defined a worker, you can use it from your application
 by injecting the worker (for instance into a route, component, controller or service);
