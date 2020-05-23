@@ -22,9 +22,9 @@ a new worker in a top-level `workers/` directory in your project.
 >
 > export default HelloWorldWorker extends Worker {
 >   @method
->    greet({ firstName, lastName }) {
->      return `Welcome ${firstName} ${lastName}!`;
->    }
+>   greet({ firstName, lastName }) {
+>     return `Welcome ${firstName} ${lastName}!`;
+>   }
 > }
 > ```
 
