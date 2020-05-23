@@ -250,5 +250,14 @@ module.exports = {
         'no-restricted-globals': ['error', { name: 'Promise', message: 'Global Promise does not work in IE11' }],
       },
     },
+
+    // Worker JS files
+    {
+      files: ['**/workers/*.js'],
+      env: {
+        browser: true,
+        worker: true,
+      },
+    },
   ],
 };
