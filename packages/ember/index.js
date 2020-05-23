@@ -29,6 +29,7 @@ module.exports = {
   treeForPublic() {
     let root = this.parent.root;
     let workersDir = path.join(root, 'workers');
+    let appDir = path.join(root, 'app');
     this.workerTree = null;
 
     if (fs.existsSync(workersDir)) {
@@ -37,8 +38,8 @@ module.exports = {
       if (files.length) {
         let funneled = this.debugTree(
           merge([
-            new Funnel(root, { srcDir: 'app', destDir: 'app', allowEmpty: true }),
-            new Funnel(root, { srcDir: 'workers', destDir: 'workers', allowEmpty: true }),
+            new Funnel(appDir, { destDir: 'app', allowEmpty: true }),
+            new Funnel(workersDir, { destDir: 'workers', allowEmpty: true }),
           ]),
           'funneled'
         );
