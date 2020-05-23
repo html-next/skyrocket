@@ -1,3 +1,9 @@
+![CI](https://github.com/html-next/skyrocket/workflows/CI/badge.svg?branch=master)
+![npm (tag)](https://img.shields.io/npm/v/@skyrocketjs/ember/latest?color=%2355dd55&style=for-the-badge)
+![npm (tag)](https://img.shields.io/npm/v/@skyrocketjs/ember/lts?color=%233333ff&style=for-the-badge)
+![npm (tag)](https://img.shields.io/npm/v/@skyrocketjs/ember/beta?color=%235ff33ff&style=for-the-badge)
+![npm (tag)](https://img.shields.io/npm/v/@skyrocketjs/ember/canary?color=%23ffbb55&style=for-the-badge)
+
 # 🚀 Skyrocket
 
 The web needs more zero-cost-abstractions and parallelism. This is a project to help with that.
