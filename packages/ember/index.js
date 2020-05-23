@@ -13,6 +13,32 @@ module.exports = {
   init() {
     this._super.init && this._super.init.apply(this, arguments);
     this.debugTree = BroccoliDebug.buildDebugCallback(`@skyrocketjs/ember`);
+    this._configuredMinify = false;
+  },
+
+  included() {
+    this.configureMinifyOptions();
+    return true;
+  },
+
+  configureMinifyOptions() {
+    if (this._configuredMinify) {
+      return;
+    }
+    /*
+      ember-cli-uglify modifies our file during postprocessTree prior to
+      broccoli-asset-rev calculating the sha to tag it with. This prevents
+      us from pre-calculating the sha to add to the schema info so that
+      we can build the url correctly to load the worker in production.
+
+      so we turn off minification for our worker launchers. We will (soon)
+      run uglify on our own tree in advance so as to not loose any optimizations.
+    */
+    this._configuredMinify = true;
+    let host = this._findHost();
+    let minifyOptions = (host.options['ember-cli-uglify'] = host.options['ember-cli-uglify'] || {});
+    minifyOptions.exclude = minifyOptions.exclude || [];
+    minifyOptions.exclude.push('workers/**__launcher.js');
   },
 
   treeForApp(tree) {

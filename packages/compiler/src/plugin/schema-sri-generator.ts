@@ -24,13 +24,13 @@ export default class SchemaSRIGenerator extends BroccoliPlugin {
       let launcherName = launcherNameFromWorkerModule(moduleName);
       let fixedLauncherName = launcherName.replace(/-/g, '_');
       let md5Hash = crypto.createHash('md5');
-      let file = fs.readFileSync(path.join(inputPath, 'workers', fixedLauncherName + '.js'), 'utf-8');
+      let file = fs.readFileSync(path.join(inputPath, 'workers', fixedLauncherName + '.js'), { encoding: null });
       md5Hash.update(file);
       let hash = md5Hash.digest('hex');
-      let schema = fs.readFileSync(path.join(inputPath, 'schemas/workers', moduleName + '.js'), 'utf-8');
+      let schema = fs.readFileSync(path.join(inputPath, 'schemas/workers', moduleName + '.js'), 'utf8');
       schema = schema.replace("export default '[", `export default '["${hash}",`);
       fs.mkdirSync(path.join(this.outputPath, 'schemas/workers'), { recursive: true });
-      fs.writeFileSync(path.join(this.outputPath, 'schemas/workers', moduleName + '.js'), schema);
+      fs.writeFileSync(path.join(this.outputPath, 'schemas/workers', moduleName + '.js'), schema, 'utf8');
     });
   }
 }
