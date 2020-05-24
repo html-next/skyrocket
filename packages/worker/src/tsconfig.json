@@ -1,22 +1,22 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "module": "ES2020",
+    "module": "ESNext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es6",
+    "target": "ESNext",
     "allowJs": false,
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noEmitOnError": false,
     "strictNullChecks": true,
-    "experimentalDecorators": false,
+    "experimentalDecorators": true,
     "noEmit": false,
     "skipLibCheck": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "outDir": "../build",
-    "lib": ["webworker", "es2017", "scripthost", "dom"]
+    "lib": ["WebWorker", "ESNext", "ScriptHost", "DOM"]
   },
   "files": ["index.ts", "shell/index.ts", "program/index.ts"],
   "exclude": ["../node_modules/**", "../../../node_modules/**"]

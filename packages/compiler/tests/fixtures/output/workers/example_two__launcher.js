@@ -1,12 +1,3 @@
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 const SkyrocketMessageIdentifier = '-srwm';
 const SkyrocketErrorIdentifier = '-srwme';
 function createShell(Global, schema, WorkerMain) {
@@ -19,36 +10,34 @@ function createShell(Global, schema, WorkerMain) {
     const isWorker = typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
     const worker = new WorkerMain(channel, { isWorker });
     let DEF_CACHE = Object.create(null);
-    function recieve(event) {
-        return __awaiter(this, arguments, void 0, function* () {
-            const data = event.data;
-            if (Array.isArray(data) && data[0] === SkyrocketMessageIdentifier) {
-                const fieldDef = getFieldDef(data[1]);
-                switch (fieldDef[0]) {
-                    case 1: // method
-                        try {
-                            const result = yield exec(worker, data[1], data[2]);
-                            return send(result, data[3]);
-                        }
-                        catch (e) {
-                            const result = {
-                                message: e.message,
-                                stack: e.stack,
-                            };
-                            return send(result, data[3]);
-                        }
-                    case 2: // event
-                        return exec(worker, data[1], data[2]);
-                    case 3: // signal
-                        return exec(worker, data[1], data[2]);
-                    default:
-                        throw new Error(`Unknown field type`);
-                }
+    async function recieve(event) {
+        const data = event.data;
+        if (Array.isArray(data) && data[0] === SkyrocketMessageIdentifier) {
+            const fieldDef = getFieldDef(data[1]);
+            switch (fieldDef[0]) {
+                case 1: // method
+                    try {
+                        const result = await exec(worker, data[1], data[2]);
+                        return send(result, data[3]);
+                    }
+                    catch (e) {
+                        const result = {
+                            message: e.message,
+                            stack: e.stack,
+                        };
+                        return send(result, data[3]);
+                    }
+                case 2: // event
+                    return exec(worker, data[1], data[2]);
+                case 3: // signal
+                    return exec(worker, data[1], data[2]);
+                default:
+                    throw new Error(`Unknown field type`);
             }
-            else {
-                channel.onmessage(...arguments);
-            }
-        });
+        }
+        else {
+            channel.onmessage(...arguments);
+        }
     }
     function getFieldDef(name) {
         let def = DEF_CACHE[name];
