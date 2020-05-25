@@ -43,6 +43,7 @@ jobs:
 
   browser-tests:
     strategy:
+      fail-fast: false
       matrix:
         command: [development, production, fastboot]
         launcher: [Chrome, IE, Firefox, Safari]
