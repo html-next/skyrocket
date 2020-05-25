@@ -23,6 +23,7 @@
     "broccoli-funnel": "^3.0.0",
     "broccoli-rollup": "^4.1.1",
     "broccoli-merge-trees": "^4.2.0",
+    "regenerator-runtime": "^0.13.5",
     "tmp": "^0.2.1"
   },
   "devDependencies": {
