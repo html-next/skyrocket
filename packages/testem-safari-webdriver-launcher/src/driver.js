@@ -1,6 +1,12 @@
 /* eslint-disable no-console */
 const { Builder, By, until } = require('selenium-webdriver');
 
+let exit = process.exit;
+process.exit = exitCode => {
+  console.trace(`Exit Called with exit code ${exitCode}`);
+  return exit.call(process, exitCode);
+};
+
 async function main() {
   let driver = await new Builder().forBrowser('safari').build();
   let closed = false;
