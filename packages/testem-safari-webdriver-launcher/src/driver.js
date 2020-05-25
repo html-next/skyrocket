@@ -57,7 +57,7 @@ async function main() {
     await driver.get(url);
     await driver.wait(
       until.elementLocated(By.id('qunit-testresult')),
-      5 * 1000,
+      60 * 1000, // 1 min
       'Timed out waiting for test container',
       100
     );
@@ -67,12 +67,12 @@ async function main() {
         try {
           let result = await driver.findElement(By.id('qunit-testresult'));
           let text = await result.getText();
-          return /[^Running:]/.test(text);
+          return /[^Running:]/.test(text) && /(\d+) assertions of (\d+) passed, (\d+) failed./.test(text);
         } catch (e) {
           return false;
         }
       },
-      60 * 60 * 1000,
+      60 * 60 * 1000, // 60 min
       'Timed Out waiting for test complete',
       100
     );
