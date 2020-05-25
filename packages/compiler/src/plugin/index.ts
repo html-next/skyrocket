@@ -76,7 +76,6 @@ function configurePlugins(babelOptions: any, plugins: any[]): any {
     }
   }
 
-  console.log(babelOptions);
   return babelOptions;
 }
 
