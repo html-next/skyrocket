@@ -5,7 +5,10 @@ async function main() {
   let driver = await new Builder().forBrowser('safari').build();
   let closed = false;
 
-  async function close() {
+  async function close(maybeError) {
+    if (maybeError) {
+      console.error(maybeError);
+    }
     if (closed) {
       return;
     }
@@ -13,14 +16,14 @@ async function main() {
       await driver.sleep(100);
       await driver.close();
     } catch (e) {
-      console.log('Issue closing driver', e);
+      console.error(e);
     } finally {
       closed = true;
     }
   }
 
   async function exitHandler(options, exitCode) {
-    console.log('exit handler called');
+    console.log('exit handler called', { options, exitCode });
     if (options.cleanup) {
       await close();
     } else if (options.exit) {
@@ -29,7 +32,7 @@ async function main() {
   }
 
   //do something when app is closing
-  process.on('exit', exitHandler.bind(null, { cleanup: true }));
+  process.on('exit', exitHandler.bind(null, { signal: 'exit', cleanup: true }));
   [
     'SIGHUP',
     'SIGINT',
@@ -45,7 +48,7 @@ async function main() {
     'SIGTERM',
     'uncaughtException',
   ].forEach(signal => {
-    process.on(signal, exitHandler.bind(null, { exit: true }));
+    process.on(signal, exitHandler.bind(null, { signal, exit: true }));
   });
 
   try {
@@ -76,14 +79,13 @@ async function main() {
 
     await close();
   } catch (e) {
-    console.log('Script Errored', e);
-    await close();
+    await close(e);
   }
 }
 
 try {
   main();
 } catch (e) {
-  console.log('Exiting Poorly', e);
+  console.error(e);
   process.exit(1);
 }

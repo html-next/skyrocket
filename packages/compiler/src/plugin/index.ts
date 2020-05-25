@@ -177,6 +177,7 @@ module.exports = function compile(options: BroccoliSchemaCompilerOptions) {
     [Decorators, { legacy: true }],
     [ClassProps, { loose: true }],
   ]);
+  console.log(babelConfig.presets[0][1].targets.browsers);
   const parsedForRollup = debug(babel(pullTree, babelConfig), 'babel-processed-files-for-worker-rollup');
 
   /*
