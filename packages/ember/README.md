@@ -11,7 +11,7 @@ A build chain for WebWorkers in Ember applications with intuitive ergonomics.
 ## Usage
 
 To use a worker in your application or addon, you first have to define
-a new worker in a top-level `workers/` directory in your project.
+a new worker in a top-level `workers/` directory in the root your project (as opposed to `app/`).
 
 > **Example 1**
 >
