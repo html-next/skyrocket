@@ -1,14 +1,20 @@
 const path = require('path');
 
-const Funnel = require('broccoli-funnel');
+const merge = require('broccoli-merge-trees');
 const { Builder } = require('broccoli');
 
 const compile = require('../../build/index'); // eslint-disable-line node/no-missing-require
 
 module.exports = () => {
-  const app = new Funnel('tests/fixtures/input');
-  const compiledTree = compile(app, { projectRoot: path.resolve('../../') });
-  const builder = new Builder(compiledTree);
+  const compiledTree = compile({
+    parentRoot: path.resolve('tests/fixtures/input'),
+    compilerOptions: {
+      importPaths: ['app'],
+      directoryToCompile: 'workers',
+      node_modules_path: path.resolve('node_modules'),
+    },
+  });
+  const builder = new Builder(merge([compiledTree.schemas, compiledTree.workers]));
 
   builder.discard = async () => {
     await builder.cleanup();

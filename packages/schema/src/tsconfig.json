@@ -10,7 +10,7 @@
     "noImplicitAny": true,
     "noEmitOnError": false,
     "strictNullChecks": true,
-    "experimentalDecorators": false,
+    "experimentalDecorators": true,
     "noEmit": false,
     "skipLibCheck": true,
     "inlineSourceMap": true,

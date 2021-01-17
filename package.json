@@ -24,7 +24,8 @@
       "**/@skyrocketjs/schema",
       "**/@skyrocketjs/compiler",
       "**/@skyrocketjs/service",
-      "**/@skyrocketjs/ember"
+      "**/@skyrocketjs/ember",
+      "**/regenerator-runtime"
     ]
   },
   "engines": {

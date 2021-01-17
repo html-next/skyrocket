@@ -10,18 +10,13 @@
     "noImplicitAny": true,
     "noEmitOnError": false,
     "strictNullChecks": true,
-    "experimentalDecorators": false,
+    "experimentalDecorators": true,
     "noEmit": false,
     "skipLibCheck": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "outDir": "../build"
   },
-  "files": [
-    "plugin/index.ts",
-    "plugin/rollup.ts",
-    "plugin/formatter.ts",
-    "plugin/utils/gather-schemas.ts"
-  ],
+  "files": ["plugin/index.ts", "plugin/rollup.ts", "plugin/formatter.ts", "plugin/utils/gather-schemas.ts"],
   "exclude": ["../node_modules/**", "../../../node_modules/**"]
 }

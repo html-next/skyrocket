@@ -1,11 +1,9 @@
 'use strict';
 
 const browsers = ['last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'];
+const targetIsIE11 = process.env.TESTEM_CI_LAUNCHER === 'IE';
 
-const isCI = !!process.env.CI;
-const isProduction = process.env.EMBER_ENV === 'production';
-
-if (isCI || isProduction) {
+if (targetIsIE11) {
   browsers.push('ie 11');
 }
 

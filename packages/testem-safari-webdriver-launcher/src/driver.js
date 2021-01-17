@@ -1,11 +1,20 @@
 /* eslint-disable no-console */
 const { Builder, By, until } = require('selenium-webdriver');
 
+let exit = process.exit;
+process.exit = exitCode => {
+  console.trace(`Exit Called with exit code ${exitCode}`);
+  return exit.call(process, exitCode);
+};
+
 async function main() {
   let driver = await new Builder().forBrowser('safari').build();
   let closed = false;
 
-  async function close() {
+  async function close(maybeError) {
+    if (maybeError) {
+      console.error(maybeError);
+    }
     if (closed) {
       return;
     }
@@ -13,14 +22,14 @@ async function main() {
       await driver.sleep(100);
       await driver.close();
     } catch (e) {
-      console.log('Issue closing driver', e);
+      console.error(e);
     } finally {
       closed = true;
     }
   }
 
   async function exitHandler(options, exitCode) {
-    console.log('exit handler called');
+    console.log('exit handler called', { options, exitCode });
     if (options.cleanup) {
       await close();
     } else if (options.exit) {
@@ -29,7 +38,7 @@ async function main() {
   }
 
   //do something when app is closing
-  process.on('exit', exitHandler.bind(null, { cleanup: true }));
+  process.on('exit', exitHandler.bind(null, { signal: 'exit', cleanup: true }));
   [
     'SIGHUP',
     'SIGINT',
@@ -45,7 +54,7 @@ async function main() {
     'SIGTERM',
     'uncaughtException',
   ].forEach(signal => {
-    process.on(signal, exitHandler.bind(null, { exit: true }));
+    process.on(signal, exitHandler.bind(null, { signal, exit: true }));
   });
 
   try {
@@ -54,7 +63,7 @@ async function main() {
     await driver.get(url);
     await driver.wait(
       until.elementLocated(By.id('qunit-testresult')),
-      5 * 1000,
+      60 * 1000, // 1 min
       'Timed out waiting for test container',
       100
     );
@@ -64,26 +73,25 @@ async function main() {
         try {
           let result = await driver.findElement(By.id('qunit-testresult'));
           let text = await result.getText();
-          return /[^Running:]/.test(text);
+          return /[^Running:]/.test(text) && /(\d+) assertions of (\d+) passed, (\d+) failed./.test(text);
         } catch (e) {
           return false;
         }
       },
-      60 * 60 * 1000,
+      60 * 60 * 1000, // 60 min
       'Timed Out waiting for test complete',
       100
     );
 
     await close();
   } catch (e) {
-    console.log('Script Errored', e);
-    await close();
+    await close(e);
   }
 }
 
 try {
   main();
 } catch (e) {
-  console.log('Exiting Poorly', e);
+  console.error(e);
   process.exit(1);
 }
