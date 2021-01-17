@@ -20,7 +20,7 @@ a new worker in a top-level `workers/` directory in your project.
 > ```js
 > import Worker, { method } from '@skyrocketjs/worker';
 >
-> export default HelloWorldWorker extends Worker {
+> export default class HelloWorldWorker extends Worker {
 >   @method
 >   greet({ firstName, lastName }) {
 >     return `Welcome ${firstName} ${lastName}!`;
