@@ -48,7 +48,7 @@
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.0",
     "ember-source": "~3.18.0",
-    "ember-template-lint": "^2.6.0",
+    "ember-template-lint": "^3.4.2",
     "loader.js": "^4.7.0",
     "qunit-dom": "^1.2.0",
     "rsvp": "^4.8.5",
