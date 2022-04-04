@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@skyrocketjs/compiler": "0.0.1-alpha.3",
+    "@skyrocketjs/service": "0.0.1-alpha.3",
     "broccoli-debug": "^0.6.5",
     "broccoli-funnel": "^3.0.3",
     "broccoli-merge-trees": "^4.2.0",
@@ -30,7 +31,6 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^1.0.0",
-    "@skyrocketjs/service": "0.0.1-alpha.3",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.18.0",
     "ember-cli-dependency-checker": "^3.1.0",
