@@ -25,7 +25,7 @@
     "tmp": "^0.2.1"
   },
   "devDependencies": {
-    "@types/node": "^14.0.4",
+    "@types/node": "^16.4.9",
     "broccoli": "^3.2.0",
     "qunit": "^2.10.0",
     "typescript": "^3.7.2"
